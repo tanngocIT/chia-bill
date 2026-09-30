@@ -47,6 +47,7 @@ src/
     local.ts           no-backend store: localStorage + party encoded (lz-string) into the share link
     supabase.ts        Supabase store: all access via RPC functions, realtime broadcast + 30s polling
     index.ts           picks Supabase if VITE_SUPABASE_URL + VITE_SUPABASE_ANON_KEY are set, else local
+  components/qrImage.ts QR → PNG (canvas, with caption), copy to clipboard (ClipboardItem) / download, read pasted images (paste event + clipboard.read)
   components/ui.tsx    Icon (ICONS map), Avatar, Cover, Seg, QrSvg, MoneyInput, Empty, Confetti, ConfirmDialog, Toast, ThemeButton, copyText
   screens/
     Home.tsx           create / sample / my parties

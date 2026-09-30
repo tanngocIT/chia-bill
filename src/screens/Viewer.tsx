@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Avatar, copyText, Cover, Icon, ICONS, QrSvg, ThemeButton, useToast } from '../components/ui';
+import { copyQrImage, downloadQrImage, type QrImageSource } from '../components/qrImage';
 import { listMine, store, type Watcher } from '../data';
 import { decodeShare, localPaid, setLocalPaid } from '../data/local';
 import { summarize, txKey } from '../lib/calc';
-import { dateVi, vnd } from '../lib/format';
+import { ascii, dateVi, vnd } from '../lib/format';
 import type { PaidMap, Party } from '../lib/types';
 import { bankName, vietqrPayload } from '../lib/vietqr';
 import { emptyBank, personRows, transferNote } from './steps';
@@ -188,6 +189,12 @@ export default function Viewer({ id, encoded }: { id?: string; encoded?: string 
                 const useImg = !!bk.qr && (bk.mode !== 'auto' || !autoOk);
                 const useAuto = !useImg && autoOk;
                 const note = transferNote(nameOf(t.from), nameOf(t.to));
+                const qrSrc: QrImageSource | null = useImg
+                  ? { imageUrl: bk.qr!, caption: [`Trả cho ${nameOf(t.to)} · ${vnd(t.amt)}`, `Nội dung: ${note}`] }
+                  : useAuto
+                    ? { payload: vietqrPayload(bk.bin, bk.acc, t.amt, note), caption: [`Trả cho ${nameOf(t.to)} · ${vnd(t.amt)}`, `Nội dung: ${note}`] }
+                    : null;
+                const fileName = `QR-${ascii(nameOf(t.to)).replace(/\s+/g, '-')}-${t.amt}.png`;
                 return (
                   <div key={k} className="card" style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 14 }}>
                     <div className="row">
@@ -203,6 +210,37 @@ export default function Viewer({ id, encoded }: { id?: string; encoded?: string 
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
                         <QrSvg size={240} text={vietqrPayload(bk.bin, bk.acc, t.amt, note)} label={`VietQR chuyển ${vnd(t.amt)} cho ${nameOf(t.to)}`} />
                         <span className="hint">VietQR đã điền sẵn số tiền và nội dung</span>
+                      </div>
+                    )}
+                    {qrSrc && (
+                      <div className="row" style={{ gap: 8, justifyContent: 'center' }}>
+                        <button
+                          className="btn btn-o btn-s"
+                          style={{ flex: 1, padding: '0 8px' }}
+                          onClick={async () => {
+                            const ok = await copyQrImage(qrSrc);
+                            if (ok) toast('Đã sao chép mã QR, dán vào app ngân hàng hoặc tin nhắn nhé');
+                            else {
+                              await downloadQrImage(qrSrc, fileName).catch(() => {});
+                              toast('Trình duyệt chưa hỗ trợ sao chép ảnh, đã tải mã QR về máy');
+                            }
+                          }}
+                        >
+                          <Icon d={ICONS.copy} size={18} />
+                          Sao chép mã QR
+                        </button>
+                        <button
+                          className="btn btn-o btn-s"
+                          style={{ flex: 1, padding: '0 8px' }}
+                          onClick={() =>
+                            downloadQrImage(qrSrc, fileName)
+                              .then(() => toast('Đã tải mã QR về máy'))
+                              .catch((e: Error) => toast(e.message))
+                          }
+                        >
+                          <Icon d={ICONS.download} size={18} />
+                          Tải mã QR
+                        </button>
                       </div>
                     )}
                     {!useImg && !useAuto && (

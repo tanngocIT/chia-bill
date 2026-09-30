@@ -21,7 +21,7 @@ Organiser wizard (route `#/p/:id/sua?k=KEY`), 6 steps with a progress indicator:
 | 2 | Thêm thành viên | type + Enter, paste a comma/line list, rename, cycle avatar colour, star = organiser, delete (confirm dialog if the member is used in bills). Needs ≥ 2 members |
 | 3 | Thêm hóa đơn | bill cards (tap = edit, swipe left = delete with Undo toast), empty state, sticky "Thêm hóa đơn". Opens the Bill editor |
 | 4 | Tổng kết | total hero card; "Ai trả cho ai" with a mode switch; per-person and per-bill accordions |
-| 5 | Mã QR thanh toán | one card per receiver, organiser first. Default tab "Ảnh QR có sẵn" (upload); alternative "Tạo VietQR". Bank select, account number with copy, account holder |
+| 5 | Mã QR thanh toán | one card per receiver, organiser first. Default tab "Ảnh QR có sẵn": upload, "Dán ảnh từ clipboard", or Ctrl+V (pasting outside a card goes to the first receiver). Alternative "Tạo VietQR". "Sao chép mã QR" / "Tải mã QR" export the uploaded image or a reusable VietQR without a fixed amount. Bank select, account number with copy, account holder |
 | 6 | Chia sẻ | public link + QR of the link, copy, Zalo / Messenger / native share, organiser link, payment status list, success confetti when all are paid |
 
 **Bill editor** (bottom sheet on mobile, centred 580px modal on desktop), top to bottom: name + quick chips → amount (quick +50k/+100k/+200k/+500k) → payer (radio chips) → participants (multi chips, "Chọn tất cả / Bỏ chọn tất cả") → split mode (Chia đều / Theo số tiền / Theo %, with live remaining badge) → **Tài trợ · không bắt buộc** (dashed switch row, off by default; Bao trọn / Tài trợ một phần) → note + receipt photo → live "Mỗi người trả" preview.
@@ -29,7 +29,7 @@ Organiser wizard (route `#/p/:id/sua?k=KEY`), 6 steps with a progress indicator:
 **Viewer** (routes `#/p/:id` or `#/v/:data`): read-only.
 - "Tôi là…" chips, remembered per party.
 - A hero card with the person's net amount.
-- One card per outgoing transfer: QR (uploaded image, else auto VietQR), bank details, transfer note, "Sao chép số tài khoản", "Tôi đã trả".
+- One card per outgoing transfer: QR (uploaded image, else auto VietQR), bank details, transfer note, "Sao chép mã QR" (PNG to clipboard; falls back to download), "Tải mã QR" (PNG with amount + note printed under the code), "Sao chép số tài khoản", "Tôi đã trả".
 - Incoming transfers, the person's share per bill, and the list of all transfers.
 
 **Home** (`#/`): create new, "Thử với dữ liệu mẫu", list of my parties.
@@ -69,4 +69,6 @@ Organiser wizard (route `#/p/:id/sua?k=KEY`), 6 steps with a progress indicator:
 3. Settlement defaults to paying through the organiser; the organiser is picked with a star on the members step.
 4. The QR step defaults to "Ảnh QR có sẵn".
 5. Added a desktop layout.
+8. Organiser can paste a QR from the clipboard and copy/download their QR on the QR step.
+7. Viewer can copy the QR image to the clipboard or download it as a PNG.
 6. Added a "chỉ tài trợ" option, so a sponsor can opt out of splitting the rest (see Business rules).

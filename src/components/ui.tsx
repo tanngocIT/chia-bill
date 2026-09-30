@@ -11,6 +11,7 @@ export const ICONS = {
   trash: 'M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3',
   edit: 'M4 20h4L19 9l-4-4L4 16v4zM14 6l4 4',
   copy: 'M9 9h11v11H9zM5 15H4V4h11v1',
+  download: 'M12 4v11M7 10l5 5 5-5M5 20h14',
   share: 'M12 3v12M7 8l5-5 5 5M5 14v6h14v-6',
   moon: 'M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z',
   sun: 'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4',

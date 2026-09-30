@@ -1,4 +1,5 @@
-import { useRef, useState, type PointerEvent as RPE } from 'react';
+import { useEffect, useRef, useState, type PointerEvent as RPE } from 'react';
+import { copyQrImage, downloadQrImage, imageFromPaste, readClipboardImage, type QrImageSource } from '../components/qrImage';
 import { absoluteUrl, store } from '../data';
 import { Avatar, Confetti, copyText, COVERS, Cover, Empty, Icon, ICONS, QrSvg, Seg, useToast } from '../components/ui';
 import { txKey, type Summary } from '../lib/calc';
@@ -6,7 +7,7 @@ import { ascii, dateVi, joinNames, uid, vnd } from '../lib/format';
 import { compressImage } from '../lib/image';
 import { AVATAR_COLORS, THEME_COLORS } from '../lib/sample';
 import type { BankInfo, Bill, PaidMap, Party, SettleMode } from '../lib/types';
-import { BANKS, vietqrPayload } from '../lib/vietqr';
+import { BANKS, bankName, vietqrPayload } from '../lib/vietqr';
 import type { Update } from './Organizer';
 
 export const transferNote = (from: string, to: string) => ascii(`${from} tra ${to}`).slice(0, 25);
@@ -554,7 +555,7 @@ export function StepSummary({ party, sum, update, paid }: { party: Party; sum: S
 }
 
 /* ================= 5. QR ================= */
-function BankCard({ party, sum, id, update }: { party: Party; sum: Summary; id: string; update: Update }) {
+function BankCard({ party, sum, id, update, onImage }: { party: Party; sum: Summary; id: string; update: Update; onImage: (id: string, f: File) => void }) {
   const toast = useToast();
   const W = who(party);
   const bk = party.bank[id] || emptyBank();
@@ -567,9 +568,35 @@ function BankCard({ party, sum, id, update }: { party: Party; sum: Summary; id: 
       p.bank[id] = { ...emptyBank(), ...(p.bank[id] || {}), ...patch };
     });
   const isOrg = sum.hub && id === sum.org;
+  const name = W.name(id);
+  const acctLine = autoOk ? `${bankName(bk.bin)} · ${bk.acc}` : '';
+  // What copy/download exports: the uploaded screenshot, or a reusable VietQR without a fixed amount.
+  const exportSrc: QrImageSource | null =
+    bk.mode === 'upload' && bk.qr
+      ? { imageUrl: bk.qr, caption: [name, ...(acctLine ? [acctLine] : [])] }
+      : bk.mode === 'auto' && autoOk
+        ? { payload: vietqrPayload(bk.bin, bk.acc), caption: [name, acctLine] }
+        : null;
+  const fileName = `QR-${ascii(name).replace(/\s+/g, '-')}.png`;
+  const pasteFromClipboard = async () => {
+    const f = await readClipboardImage();
+    if (f === 'unsupported') toast('Trình duyệt chưa cho đọc clipboard. Hãy nhấn Ctrl+V (hoặc giữ để Dán) ngay trên trang này.');
+    else if (!f) toast('Clipboard chưa có ảnh. Hãy chụp hoặc sao chép ảnh QR trước nhé.');
+    else onImage(id, f);
+  };
 
   return (
-    <div className="card" style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 14 }}>
+    <div
+      className="card"
+      data-qr-card={id}
+      style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 14 }}
+      onPaste={(e) => {
+        const f = imageFromPaste(e);
+        if (!f) return;
+        e.preventDefault();
+        onImage(id, f);
+      }}
+    >
       <div className="row">
         <Avatar name={W.name(id)} color={W.color(id)} size="l" />
         <div className="grow">
@@ -600,6 +627,9 @@ function BankCard({ party, sum, id, update }: { party: Party; sum: Summary; id: 
                 Đổi ảnh
                 <QrUpload onDone={(url) => set({ qr: url })} label={`Đổi ảnh QR của ${W.name(id)}`} />
               </label>
+              <button className="lnk" onClick={pasteFromClipboard}>
+                Dán ảnh khác
+              </button>
               <button className="lnk" style={{ color: 'var(--danger)' }} onClick={() => set({ qr: null })}>
                 Xóa ảnh
               </button>
@@ -621,6 +651,15 @@ function BankCard({ party, sum, id, update }: { party: Party; sum: Summary; id: 
             />
           </label>
         ))}
+      {bk.mode === 'upload' && !bk.qr && (
+        <div className="row" style={{ gap: 8, flexWrap: 'wrap', justifyContent: 'center' }}>
+          <button className="btn btn-o btn-s" onClick={pasteFromClipboard}>
+            <Icon d={ICONS.copy} size={18} />
+            Dán ảnh từ clipboard
+          </button>
+          <span className="hint">hoặc nhấn Ctrl+V</span>
+        </div>
+      )}
       {bk.mode === 'auto' &&
         (autoOk && first ? (
           <div className="row" style={{ gap: 14 }}>
@@ -634,6 +673,36 @@ function BankCard({ party, sum, id, update }: { party: Party; sum: Summary; id: 
             Chọn ngân hàng và nhập số tài khoản bên dưới để tạo mã.
           </div>
         ))}
+      {exportSrc && (
+        <div className="row" style={{ gap: 8 }}>
+          <button
+            className="btn btn-o btn-s"
+            style={{ flex: 1, padding: '0 8px' }}
+            onClick={async () => {
+              if (await copyQrImage(exportSrc)) toast('Đã sao chép mã QR');
+              else {
+                await downloadQrImage(exportSrc, fileName).catch(() => {});
+                toast('Trình duyệt chưa hỗ trợ sao chép ảnh, đã tải mã QR về máy');
+              }
+            }}
+          >
+            <Icon d={ICONS.copy} size={18} />
+            Sao chép mã QR
+          </button>
+          <button
+            className="btn btn-o btn-s"
+            style={{ flex: 1, padding: '0 8px' }}
+            onClick={() =>
+              downloadQrImage(exportSrc, fileName)
+                .then(() => toast('Đã tải mã QR về máy'))
+                .catch((e: Error) => toast(e.message))
+            }
+          >
+            <Icon d={ICONS.download} size={18} />
+            Tải mã QR
+          </button>
+        </div>
+      )}
       <div className="field" style={{ gap: 6 }}>
         <label className="lbl" htmlFor={`bk-${id}`}>
           Ngân hàng
@@ -702,10 +771,41 @@ function QrUpload({ onDone, label }: { onDone: (url: string, kb: number) => void
 }
 
 export function StepQr({ party, sum, update }: { party: Party; sum: Summary; update: Update }) {
+  const toast = useToast();
   const W = who(party);
   const recv: string[] = [];
   sum.txs.forEach((t) => !recv.includes(t.to) && recv.push(t.to));
   if (sum.hub && sum.org && recv.includes(sum.org)) recv.sort((a, b) => (a === sum.org ? -1 : b === sum.org ? 1 : 0));
+
+  const saveImage = async (id: string, f: File) => {
+    if (f.size > 15 * 1024 * 1024) return toast('Ảnh quá lớn');
+    try {
+      const { url, kb } = await compressImage(f, 400 * 1024, 900);
+      update((p) => {
+        p.bank[id] = { ...emptyBank(), ...(p.bank[id] || {}), qr: url, mode: 'upload' };
+      });
+      toast(`Đã lưu mã QR của ${W.name(id)} (${kb}KB)`);
+    } catch (err) {
+      toast((err as Error).message);
+    }
+  };
+
+  // Ctrl+V anywhere on this step (outside a card) goes to the first receiver — the organiser in hub mode.
+  const first = recv[0];
+  const saveRef = useRef(saveImage);
+  saveRef.current = saveImage;
+  useEffect(() => {
+    if (!first) return;
+    const h = (e: ClipboardEvent) => {
+      if (e.defaultPrevented) return;
+      const f = imageFromPaste(e);
+      if (!f) return;
+      e.preventDefault();
+      saveRef.current(first, f);
+    };
+    window.addEventListener('paste', h);
+    return () => window.removeEventListener('paste', h);
+  }, [first]);
   const others = party.members.filter((m) => !recv.includes(m.id)).map((m) => m.name);
   const o = sum.org ? W.name(sum.org) : '';
   return (
@@ -721,7 +821,7 @@ export function StepQr({ party, sum, update }: { party: Party; sum: Summary; upd
         </div>
       )}
       {recv.map((id) => (
-        <BankCard key={id} party={party} sum={sum} id={id} update={update} />
+        <BankCard key={id} party={party} sum={sum} id={id} update={update} onImage={saveImage} />
       ))}
       {recv.length > 0 && others.length > 0 && (
         <div className="hint" style={{ textAlign: 'center', fontSize: 14 }}>
