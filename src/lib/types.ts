@@ -6,6 +6,11 @@ export interface Member {
   id: string;
   name: string;
   color: string;
+  /**
+   * "Chỉ tài trợ": this member only pays what they sponsor and is left out of
+   * the remaining split on every bill.
+   */
+  sponsorOnly?: boolean;
 }
 
 export interface Bill {

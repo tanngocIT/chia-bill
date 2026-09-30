@@ -187,6 +187,7 @@ export function StepMembers({ party, update, org, onRemove }: { party: Party; up
                       <span style={{ fontWeight: 600, fontSize: 16, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.name}</span>
                       <span className="hint">
                         {isOrg ? 'Người tổ chức · ' : ''}
+                        {m.sponsorOnly ? 'Chỉ tài trợ · ' : ''}
                         {used ? `Có trong ${used} hóa đơn` : 'Chưa có trong hóa đơn nào'}
                       </span>
                     </div>

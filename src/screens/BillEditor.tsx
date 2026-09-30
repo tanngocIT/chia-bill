@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Avatar, Icon, ICONS, MoneyInput, Seg, useToast } from '../components/ui';
-import { calcBill } from '../lib/calc';
+import { calcBill, sponsorOnlyIds } from '../lib/calc';
 import { joinNames, num, r1k, uid, vnd } from '../lib/format';
 import { compressImage } from '../lib/image';
 import type { Bill, Party, SplitMode, SponsorType } from '../lib/types';
@@ -32,14 +32,17 @@ interface Props {
   onChange: (s: EditorState) => void;
   onClose: () => void;
   onSave: (b: Bill) => void;
+  /** toggles Member.sponsorOnly (party-wide, applies to every bill) */
+  onToggleSponsorOnly: (memberId: string) => void;
 }
 
-export default function BillEditor({ party, state, onChange, onClose, onSave }: Props) {
+export default function BillEditor({ party, state, onChange, onClose, onSave, onToggleSponsorOnly }: Props) {
   const toast = useToast();
   const [tried, setTried] = useState(false);
   const d = state.d;
   const ids = party.members.map((m) => m.id);
-  const c = calcBill(d, ids);
+  const only = sponsorOnlyIds(party);
+  const c = calcBill(d, ids, only);
   const nameOf = (id: string) => party.members.find((m) => m.id === id)?.name ?? '?';
   const colorOf = (id: string) => party.members.find((m) => m.id === id)?.color ?? '#41474e';
 
@@ -56,7 +59,7 @@ export default function BillEditor({ party, state, onChange, onClose, onSave }: 
   }, [onClose]);
 
   const prefill = (b: Bill, mode: SplitMode) => {
-    const eq = calcBill({ ...b, split: 'equal' }, ids);
+    const eq = calcBill({ ...b, split: 'equal' }, ids, only);
     b.custom = {};
     if (mode === 'amount') eq.parts.forEach((id) => (b.custom[id] = eq.sh[id] || 0));
     if (mode === 'percent' && eq.parts.length) {
@@ -68,7 +71,7 @@ export default function BillEditor({ party, state, onChange, onClose, onSave }: 
   const save = () => {
     const b = structuredClone(d);
     if (!b.name.trim()) b.name = 'Hóa đơn ' + (party.bills.length + (state.isNew ? 1 : 0));
-    if (!calcBill(b, ids).ok) {
+    if (!calcBill(b, ids, only).ok) {
       setTried(true);
       return;
     }
@@ -194,12 +197,18 @@ export default function BillEditor({ party, state, onChange, onClose, onSave }: 
                   >
                     <Avatar name={m.name} color={m.color} />
                     {m.name}
-                    {on && <Icon d={ICONS.check} size={16} stroke={2.6} />}
+                    {on && m.sponsorOnly && <span className="badge b-gift">chỉ tài trợ</span>}
+                    {on && !m.sponsorOnly && <Icon d={ICONS.check} size={16} stroke={2.6} />}
                   </button>
                 );
               })}
             </div>
-            {c.parts.length === 0 && <div className="err-text">Chọn ít nhất 1 người tham gia.</div>}
+            {d.parts.length === 0 && <div className="err-text">Chọn ít nhất 1 người tham gia.</div>}
+            {c.excluded.length > 0 && (
+              <div className="hint">
+                {joinNames(c.excluded.map(nameOf))} chỉ tài trợ nên không chia phần còn lại.
+              </div>
+            )}
           </div>
 
           <div className="field" style={{ gap: 10 }}>
@@ -332,6 +341,23 @@ export default function BillEditor({ party, state, onChange, onClose, onSave }: 
                       {c.sps.length > 1 ? 'Mỗi người tài trợ' : 'Số tiền tài trợ'}
                     </label>
                     <MoneyInput id="esa" value={d.sponsorAmount} placeholder="VD: 500.000" onChange={(n) => ed((b) => void (b.sponsorAmount = n))} />
+                  </div>
+                )}
+                {c.sps.length > 0 && (
+                  <div className="field" style={{ gap: 4 }}>
+                    {c.sps.map((id) => {
+                      const m = party.members.find((x) => x.id === id);
+                      if (!m) return null;
+                      return (
+                        <label key={id} className="row" style={{ gap: 12, minHeight: 44, alignItems: 'flex-start', paddingTop: 10 }}>
+                          <input type="checkbox" checked={!!m.sponsorOnly} onChange={() => onToggleSponsorOnly(id)} style={{ width: 20, height: 20, marginTop: 1, accentColor: 'var(--primary)', flexShrink: 0 }} />
+                          <span style={{ display: 'flex', flexDirection: 'column' }}>
+                            <span style={{ fontWeight: 600 }}>{m.name} chỉ tài trợ, không chia phần còn lại</span>
+                            <span className="hint">Áp dụng cho mọi hóa đơn của buổi tiệc. {m.name} chỉ trả phần tài trợ.</span>
+                          </span>
+                        </label>
+                      );
+                    })}
                   </div>
                 )}
                 {spPreview && <div style={{ fontSize: 14, color: 'var(--warn)', background: 'var(--warn-bg)', padding: '10px 12px', borderRadius: 12 }}>{spPreview}</div>}

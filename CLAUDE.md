@@ -65,6 +65,7 @@ Data model: one `Party` JSON document (members, bills, bank info with optional Q
 
 - VND integers only. Display as `1.250.000đ` via `vnd()`.
 - Sponsorship first. Remainder split equal / amount / percent. Equal and % shares round to 1.000đ, and the difference goes to the payer (or the first participant if the payer isn't one).
+- `Member.sponsorOnly` ("chỉ tài trợ"): that member is excluded from the remainder split on **every** bill and pays only their sponsorship. Pass `sponsorOnlyIds(party)` as the 3rd arg whenever you call `calcBill` directly.
 - Settlement default `settleMode: 'hub'`: everyone pays the organiser, and the organiser repays whoever covered bills. `'min'` = fewest transfers.
 - Custom splits must sum exactly. Validation messages live in `calcBill().errs` (Vietnamese).
 - VietQR transfer note: `ascii("<from> tra <to>")`, ≤ 25 chars.

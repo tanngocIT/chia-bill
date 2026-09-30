@@ -335,6 +335,14 @@ export default function Organizer({ id, editKey }: { id: string; editKey: string
           state={editor}
           onChange={setEditor}
           onClose={() => setEditor(null)}
+          onToggleSponsorOnly={(mid) => {
+            const m = party.members.find((x) => x.id === mid);
+            update((p) => {
+              const x = p.members.find((y) => y.id === mid);
+              if (x) x.sponsorOnly = !x.sponsorOnly;
+            });
+            if (m) toast(m.sponsorOnly ? `${m.name} lại cùng chia tiền với mọi người` : `${m.name} chỉ tài trợ, không chia phần còn lại`);
+          }}
           onSave={(d) => {
             update((p) => {
               if (editor.isNew) p.bills.push(d);

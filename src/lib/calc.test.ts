@@ -36,6 +36,39 @@ describe('calcBill', () => {
   });
 });
 
+describe('sponsor-only members', () => {
+  // 3 people, bill 1 = 2M, bill 2 = 4M, P1 sponsors 1M of bill 1 and opts out
+  // of the rest → P2 and P3 each pay (2 + 4 − 1) / 2 = 2.5M, P1 pays 1M.
+  const party = {
+    ...sampleParty(),
+    members: [
+      { id: 'p1', name: 'A', color: '#000', sponsorOnly: true },
+      { id: 'p2', name: 'B', color: '#000' },
+      { id: 'p3', name: 'C', color: '#000' },
+    ],
+    bills: [
+      { id: 'x1', name: 'Bill 1', amount: 2000000, payer: 'p2', parts: ['p1', 'p2', 'p3'], split: 'equal' as const, custom: {}, sponsorOn: true, sponsors: ['p1'], sponsorType: 'fixed' as const, sponsorAmount: 1000000, note: '', photo: null },
+      { id: 'x2', name: 'Bill 2', amount: 4000000, payer: 'p3', parts: ['p1', 'p2', 'p3'], split: 'equal' as const, custom: {}, sponsorOn: false, sponsors: [], sponsorType: 'full' as const, sponsorAmount: 0, note: '', photo: null },
+    ],
+  };
+
+  it('leaves the sponsor out of every remainder split', () => {
+    const s = summarize(party);
+    expect(s.owed).toEqual({ p1: 1000000, p2: 2500000, p3: 2500000 });
+    expect(s.calcs.x2.excluded).toEqual(['p1']);
+  });
+
+  it('includes the sponsor again when the flag is off', () => {
+    const s = summarize({ ...party, members: party.members.map((m) => ({ ...m, sponsorOnly: false })) });
+    expect(s.owed.p1).toBe(1000000 + 333000 + 1333000);
+  });
+
+  it('needs someone to share the remainder', () => {
+    const c = calcBill({ ...party.bills[1], parts: ['p1'] }, ['p1', 'p2', 'p3'], ['p1']);
+    expect(c.ok).toBe(false);
+  });
+});
+
 describe('summarize', () => {
   it('hub mode routes everything through the organiser', () => {
     const s = summarize(sampleParty());

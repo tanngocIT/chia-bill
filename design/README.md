@@ -39,6 +39,7 @@ Organiser wizard (route `#/p/:id/sua?k=KEY`), 6 steps with a progress indicator:
 - VND, format `1.250.000đ`, no decimals.
 - Sponsorship (optional) is taken off first. Full: sponsors split the whole bill. Fixed: each sponsor pays `sponsorAmount`.
 - The remainder is split among participants. Equal and % shares round to the nearest 1.000đ. The difference goes to the payer, or to the first participant if the payer didn't join.
+- **Chỉ tài trợ (sponsor-only), optional per sponsor:** ticked in the bill editor under each selected sponsor; stored on the member, so it applies to every bill. That member pays only what they sponsor and is left out of the remaining split on all bills. Example: 3 people, bills of 2M and 4M, P1 sponsors 1M of bill 1 and ticks it, so P2 and P3 each pay (2 + 4 − 1) / 2 = 2.5M.
 - Validation: amount > 0; at least 1 participant; custom amounts must sum to the remainder; percentages must total 100; a partial sponsorship needs an amount that doesn't exceed the bill.
 - **Settlement default = "Qua người tổ chức":** debtors pay the organiser, then the organiser pays back creditors. This is how groups actually pay in practice, so usually only the organiser's QR is needed. The optional "Ít lần chuyển nhất" mode uses greedy debt simplification.
 - Transfer note for VietQR: `"<Payer> tra <Receiver>"` in ASCII, max 25 chars.
@@ -68,3 +69,4 @@ Organiser wizard (route `#/p/:id/sua?k=KEY`), 6 steps with a progress indicator:
 3. Settlement defaults to paying through the organiser; the organiser is picked with a star on the members step.
 4. The QR step defaults to "Ảnh QR có sẵn".
 5. Added a desktop layout.
+6. Added a "chỉ tài trợ" option, so a sponsor can opt out of splitting the rest (see Business rules).
