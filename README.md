@@ -35,6 +35,8 @@ The code talks to storage through `src/data/store.ts` (`Store` interface), so an
 
 ### Set up Supabase (free tier is enough)
 
+Supabase account (dashboard login): `sidal88631@bitproy.com`
+
 1. Create a project at supabase.com.
 2. SQL Editor → paste and run `supabase/schema.sql`.
    - Tables are locked with RLS and no policies.
