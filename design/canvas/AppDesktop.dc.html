@@ -1,0 +1,1492 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Chia bill – Desktop</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0b36d2}a:hover{color:#3c66ff}
+.app{--bg:#f1f2f4;--card:#ffffff;--text:#0c0d0e;--text2:#2e3238;--text3:#5d656f;--line:#dbdde1;--primary:#002a61;--primary-h:#05244d;--on-primary:#ffffff;--accent:#3c66ff;--accent-text:#0b36d2;--sel:#e2efff;--sel-text:#002a61;--pos-bg:#e9fcd4;--pos:#315e00;--warn-bg:#fff0d9;--warn:#623b02;--danger-bg:#fae4e4;--danger:#9e0202;--overlay:rgba(12,13,14,.48);--hover:#5d656f14;--shadow:0 12px 24px -4px #5d656f1f,0 0 2px 0 #5d656f1f;--toast-bg:#2e3238;--toast-text:#ffffff}
+.app.dark{--bg:#0c0d0e;--card:#1a1d21;--text:#f1f2f4;--text2:#dbdde1;--text3:#babec5;--line:#2e3238;--primary:#c2dcff;--primary-h:#e2efff;--on-primary:#002a61;--accent:#a3b7ff;--accent-text:#a3b7ff;--sel:#13294d;--sel-text:#c2dcff;--pos-bg:#1c2e0b;--pos:#a1d26a;--warn-bg:#33240b;--warn:#e4b774;--danger-bg:#3a1515;--danger:#eeafaf;--overlay:rgba(0,0,0,.6);--hover:#ffffff14;--shadow:0 0 0 1px #2e3238;--toast-bg:#f1f2f4;--toast-text:#0c0d0e}
+.app *{box-sizing:border-box}
+:where(.app) :where(button,input,select,textarea){font:inherit;color:inherit}
+:where(.app) :where(button,label){cursor:pointer}
+.app sc-if,.app sc-for{display:contents}
+.app:not(.desk) .d-only{display:none!important}
+.desk .m-only{display:none!important}
+.desk:not(.view){display:grid!important;grid-template-columns:272px minmax(0,1fr) 340px;grid-template-rows:minmax(0,1fr) auto}
+.desk .hd{grid-column:1;grid-row:1/span 2;border-bottom:0!important;border-right:1px solid var(--line);padding:24px 16px!important;display:flex;flex-direction:column}
+.desk .mn{grid-column:2;grid-row:1;padding:32px max(32px,calc((100% - 680px)/2)) 40px!important}
+.desk .bar{grid-column:2;grid-row:2;padding:16px max(32px,calc((100% - 680px)/2))!important}
+.desk .bar>div:last-child{justify-content:flex-end}
+.desk .bar .btn{flex:0 0 auto!important;min-width:200px}
+.desk .sum{grid-column:3;grid-row:1/span 2;border-left:1px solid var(--line)}
+.desk.view .mn{padding:32px max(32px,calc((100% - 640px)/2)) 40px!important}
+.desk .sheet{left:calc(50% - 290px)!important;right:auto!important;width:580px;top:40px!important;bottom:40px!important;border-radius:16px!important}
+.desk .dlg{max-width:440px}
+.desk .toast{left:calc(50% - 210px)!important;right:auto!important;width:420px}
+.dnav{min-height:48px;border:0;border-radius:12px;background:transparent;display:flex;align-items:center;gap:12px;padding:0 12px;text-align:left;font-size:15px;font-weight:600;color:var(--text2);width:100%}
+.dnav:hover{background:var(--hover)}
+.dnav.on{background:var(--sel);color:var(--sel-text)}
+.dnav .nb{width:28px;height:28px;border-radius:100px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;box-shadow:inset 0 0 0 1.5px var(--line);color:var(--text3)}
+.dnav.done .nb{background:var(--accent);color:var(--card);box-shadow:none}
+.dnav.on .nb{background:var(--primary);color:var(--on-primary);box-shadow:none}
+.app :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.app h2{margin:0;font-size:18px;line-height:24px;font-weight:700}
+.btn{min-height:52px;padding:0 24px;border-radius:100px;border:0;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:600;font-size:16px;transition:background .2s ease-out;white-space:nowrap}
+.btn-p{background:var(--primary);color:var(--on-primary)}.btn-p:hover{background:var(--primary-h)}
+.btn-o{background:transparent;color:var(--sel-text);box-shadow:inset 0 0 0 1px var(--primary)}.btn-o:hover{background:var(--hover)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-s{min-height:44px;padding:0 16px;font-size:14px}
+.ibtn{width:44px;height:44px;border-radius:100px;border:0;background:transparent;display:inline-flex;align-items:center;justify-content:center;color:var(--text2);flex-shrink:0;padding:0}.ibtn:hover{background:var(--hover)}
+.card{background:var(--card);border-radius:16px;box-shadow:var(--shadow)}
+.lbl{font-size:14px;line-height:20px;font-weight:600;color:var(--text2)}
+.hint{font-size:13px;line-height:19px;color:var(--text3)}
+.inp{width:100%;min-height:52px;padding:0 16px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--text);font-size:16px}
+.inp:focus{outline:none;border:2px solid var(--primary);padding-left:15px}
+.inp.err{border:2px solid var(--danger);padding-left:15px}
+.inp::placeholder{color:var(--text3)}
+.chip{min-height:44px;padding:0 14px 0 6px;border-radius:100px;border:0;background:var(--card);box-shadow:inset 0 0 0 1px var(--line);display:inline-flex;align-items:center;gap:8px;font-size:15px;color:var(--text)}
+.chip.on{background:var(--sel);box-shadow:inset 0 0 0 2px var(--primary);color:var(--sel-text);font-weight:600}
+.chip.off .av{opacity:.4}
+.qchip{min-height:36px;padding:0 12px;border-radius:100px;border:0;background:var(--card);box-shadow:inset 0 0 0 1px var(--line);font-size:14px;color:var(--text2)}
+.qchip.on{background:var(--sel);box-shadow:inset 0 0 0 2px var(--primary);color:var(--sel-text);font-weight:600}
+.av{border-radius:100px;display:inline-flex;align-items:center;justify-content:center;color:#ffffff;font-weight:600;flex-shrink:0;width:32px;height:32px;font-size:14px;border:0;padding:0}
+.av-l{width:44px;height:44px;font-size:17px}
+.av-s{width:26px;height:26px;font-size:11px;box-shadow:0 0 0 2px var(--card)}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;padding:4px;border-radius:100px;background:var(--bg);gap:4px;box-shadow:inset 0 0 0 1px var(--line)}
+.seg button{min-height:40px;border-radius:100px;border:0;background:transparent;font-size:14px;font-weight:600;color:var(--text3);padding:0 8px}
+.seg button.on{background:var(--card);color:var(--sel-text);box-shadow:0 1px 3px #5d656f52}
+.lnk{border:0;background:transparent;color:var(--accent-text);font-weight:600;font-size:14px;min-height:44px;padding:0 4px}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 10px;border-radius:100px;font-size:12px;font-weight:600;line-height:22px;white-space:nowrap}
+.b-gift{background:var(--warn-bg);color:var(--warn)}.b-pos{background:var(--pos-bg);color:var(--pos)}.b-neg{background:var(--danger-bg);color:var(--danger)}.b-neu{background:var(--bg);color:var(--text3)}
+.pbtn{min-height:36px;padding:0 12px;border-radius:100px;border:0;font-size:13px;font-weight:600;white-space:nowrap}
+.scroll{overflow-y:auto;scrollbar-width:none}.scroll::-webkit-scrollbar{display:none}
+.scroll>*{flex-shrink:0}
+.sw-t{transition:transform .25s ease-out}
+.cov{height:52px;border-radius:12px;border:0;background:var(--card);box-shadow:inset 0 0 0 1px var(--line);color:var(--text2);display:flex;align-items:center;justify-content:center}
+.cov.on{background:var(--sel);box-shadow:inset 0 0 0 2px var(--primary);color:var(--sel-text)}
+.swt{width:44px;height:44px;border-radius:100px;border:0;padding:0}
+.swt.on{box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--text)}
+.trk{position:relative;display:block;width:48px;height:28px;border-radius:100px;background:var(--line);transition:background .2s;flex-shrink:0}
+.trk>span{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:100px;background:#ffffff;transition:transform .2s ease-out;box-shadow:0 1px 2px #0000004d}
+.trk.on{background:var(--accent)}.trk.on>span{transform:translateX(20px)}
+.fi{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.stp{height:44px;border:0;background:transparent;padding:0;display:flex;flex-direction:column;justify-content:center;gap:6px;min-width:0}
+@keyframes toastIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes sheetIn{from{transform:translateY(48px);opacity:0}to{transform:none;opacity:1}}
+@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes fall{0%{transform:translateY(-16px) rotate(0);opacity:0}12%{opacity:1}100%{transform:translateY(200px) rotate(320deg);opacity:0}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.toast{animation:toastIn .3s ease-out}
+.sheet{animation:sheetIn .35s ease-out}
+.pop{animation:pop .4s ease-out}
+.fade{animation:fadeIn .3s ease-out}
+.conf{position:absolute;top:0;width:8px;height:12px;border-radius:2px;animation:fall 1.8s ease-out infinite}
+</style>
+</helmet>
+<div class="app {{theme}} {{layoutCls}}" style="width: {{rootW}}px; height: {{rootH}}px; position: relative; display: flex; flex-direction: column; overflow: hidden; background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; font-size: 15px; line-height: 22px">
+
+<!-- ================= ORGANISER ================= -->
+<sc-if value="{{isOrg}}" hint-placeholder-val="{{ true }}">
+  <header class="hd" style="flex-shrink: 0; background: var(--card); border-bottom: 1px solid var(--line); padding: 8px 8px 4px 8px">
+    <div class="d-only" style="display: flex; flex-direction: column; gap: 24px; height: 100%">
+      <div style="display: flex; align-items: center; gap: 12px; padding: 0 8px">
+        <span style="width: 44px; height: 44px; border-radius: 14px; background: {{party.color}}; color: #ffffff; display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{coverPath}}"></path></svg></span>
+        <div style="min-width: 0">
+          <div style="font-weight: 700; font-size: 16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{partyNameShow}}</div>
+          <div class="hint">{{partyDateShow}}</div>
+        </div>
+      </div>
+      <nav aria-label="Các bước" style="display: flex; flex-direction: column; gap: 4px">
+        <sc-for list="{{steps}}" as="st" hint-placeholder-count="6">
+          <button class="dnav {{st.dcls}}" aria-current="{{st.cur}}" onClick="{{st.go}}"><span class="nb">{{st.n}}</span>{{st.title}}</button>
+        </sc-for>
+      </nav>
+      <div style="flex-grow: 1"></div>
+      <div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 4px; box-shadow: none; background: var(--bg)">
+        <div class="hint">Người tổ chức</div>
+        <div style="display: flex; align-items: center; gap: 8px; font-weight: 700"><span class="av" style="background: {{orgColor}}">{{orgIni}}</span>{{orgName}}</div>
+      </div>
+      <button class="dnav" onClick="{{toggleDark}}">
+        <sc-if value="{{dark}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if>
+        <sc-if value="{{light}}" hint-placeholder-val="{{ true }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg></sc-if>
+        {{themeText}}
+      </button>
+    </div>
+    <div class="m-only" style="display: flex; align-items: center; gap: 4px">
+      <sc-if value="{{canBack}}" hint-placeholder-val="{{ false }}">
+        <button class="ibtn" aria-label="Quay lại bước trước" onClick="{{back}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+      </sc-if>
+      <sc-if value="{{noBack}}" hint-placeholder-val="{{ true }}">
+        <span style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; flex-shrink: 0"><span style="width: 32px; height: 32px; border-radius: 10px; background: {{party.color}}; color: #ffffff; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{coverPath}}"></path></svg></span></span>
+      </sc-if>
+      <div style="flex-grow: 1; min-width: 0; text-align: center">
+        <div style="font-size: 12px; line-height: 16px; color: var(--text3); font-weight: 600">{{stepLabel}}</div>
+        <div style="font-size: 17px; line-height: 24px; font-weight: 700">{{stepTitle}}</div>
+      </div>
+      <button class="ibtn" aria-label="{{themeLabel}}" onClick="{{toggleDark}}">
+        <sc-if value="{{dark}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if>
+        <sc-if value="{{light}}" hint-placeholder-val="{{ true }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg></sc-if>
+      </button>
+    </div>
+    <nav class="m-only" aria-label="Các bước" style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; padding: 0 8px">
+      <sc-for list="{{steps}}" as="st" hint-placeholder-count="6">
+        <button class="stp" aria-label="{{st.aria}}" aria-current="{{st.cur}}" onClick="{{st.go}}">
+          <span style="display: block; width: 100%; height: 4px; border-radius: 4px; background: {{st.bar}}"></span>
+          <span style="font-size: 11px; line-height: 14px; font-weight: 600; color: {{st.fg}}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{st.label}}</span>
+        </button>
+      </sc-for>
+    </nav>
+  </header>
+
+  <main class="scroll mn" ref="{{mainRef}}" style="flex-grow: 1; min-height: 0; padding: 20px 16px 28px; display: flex; flex-direction: column; gap: 20px">
+    <div class="d-only" style="display: flex; flex-direction: column; gap: 4px">
+      <div class="hint" style="font-weight: 600">{{stepLabel}}</div>
+      <h1 style="margin: 0; font-size: 28px; line-height: 36px; font-weight: 700; letter-spacing: -0.01em">{{stepTitle}}</h1>
+    </div>
+
+    <!-- STEP 1 · Tạo buổi tiệc -->
+    <sc-if value="{{is0}}" hint-placeholder-val="{{ true }}">
+      <div class="card" style="padding: 20px; display: flex; align-items: center; gap: 16px">
+        <span style="width: 64px; height: 64px; border-radius: 20px; background: {{party.color}}; color: #ffffff; display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{coverPath}}"></path></svg></span>
+        <div style="min-width: 0; display: flex; flex-direction: column; gap: 2px">
+          <div style="font-size: 20px; line-height: 26px; font-weight: 700; overflow-wrap: anywhere">{{partyNameShow}}</div>
+          <div class="hint" style="font-size: 14px">{{partyDateShow}}</div>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <label class="lbl" for="pn">Tên buổi tiệc</label>
+        <input id="pn" class="inp {{partyErrCls}}" value="{{party.name}}" onChange="{{onPartyName}}" placeholder="VD: Sinh nhật Linh, Đà Lạt 3 ngày" maxLength="60" autoComplete="off">
+        <sc-if value="{{partyErr}}" hint-placeholder-val="{{ false }}"><div style="font-size: 13px; color: var(--danger); font-weight: 600">Đặt tên cho buổi tiệc để tiếp tục nhé.</div></sc-if>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <label class="lbl" for="pd">Ngày</label>
+        <input id="pd" class="inp" type="date" value="{{party.date}}" onChange="{{onPartyDate}}">
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <div class="lbl" id="cov-l">Biểu tượng</div>
+        <div role="group" aria-labelledby="cov-l" style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px">
+          <sc-for list="{{covers}}" as="c" hint-placeholder-count="6">
+            <button class="cov {{c.cls}}" aria-label="{{c.label}}" aria-pressed="{{c.on}}" onClick="{{c.pick}}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{c.path}}"></path></svg></button>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <div class="lbl" id="col-l">Màu chủ đề</div>
+        <div role="group" aria-labelledby="col-l" style="display: flex; gap: 12px; flex-wrap: wrap; padding: 4px">
+          <sc-for list="{{colors}}" as="c" hint-placeholder-count="6">
+            <button class="swt {{c.cls}}" style="background: {{c.hex}}" aria-label="{{c.label}}" aria-pressed="{{c.on}}" onClick="{{c.pick}}"></button>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- STEP 2 · Thành viên -->
+    <sc-if value="{{is1}}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <label class="lbl" for="nm">Tên thành viên</label>
+        <div style="display: flex; gap: 8px">
+          <input id="nm" class="inp" style="flex-grow: 1; min-width: 0" value="{{newName}}" onChange="{{onNewName}}" onKeyDown="{{onNewKey}}" onPaste="{{onPaste}}" placeholder="Nhập tên rồi nhấn Enter" autoComplete="off" enterKeyHint="done">
+          <button class="btn btn-p" style="width: 52px; padding: 0; flex-shrink: 0" aria-label="Thêm thành viên" onClick="{{addNew}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button>
+        </div>
+        <div class="hint">Mẹo: dán cả danh sách, các tên cách nhau bằng dấu phẩy hoặc xuống dòng.</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 2px">
+        <h2>{{memberCountLabel}}</h2>
+        <div class="hint">Chạm ngôi sao để chọn người tổ chức. Mọi người chuyển tiền cho người này, rồi người này trả lại cho ai đã ứng trước.</div>
+      </div>
+      <sc-if value="{{noMembers}}" hint-placeholder-val="{{ false }}">
+        <div class="card" style="padding: 32px 24px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center">
+          <span style="width: 56px; height: 56px; border-radius: 100px; background: var(--sel); color: var(--sel-text); display: flex; align-items: center; justify-content: center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 6.5M18 14c2 .8 3.5 3 3.5 6"></path></svg></span>
+          <div style="font-weight: 700; font-size: 16px">Chưa có ai cả</div>
+          <div class="hint" style="font-size: 14px">Thêm người đầu tiên nhé!</div>
+        </div>
+      </sc-if>
+      <sc-if value="{{hasMembers}}" hint-placeholder-val="{{ true }}">
+        <div class="card" style="overflow: hidden">
+          <sc-for list="{{mems}}" as="m" hint-placeholder-count="5">
+            <div style="display: flex; align-items: center; gap: 12px; padding: 8px 8px 8px 16px; min-height: 64px; border-top: {{m.bt}}">
+              <button class="av av-l" style="background: {{m.color}}" aria-label="Đổi màu avatar của {{m.name}}" onClick="{{m.cycle}}">{{m.ini}}</button>
+              <sc-if value="{{m.editing}}" hint-placeholder-val="{{ false }}">
+                <input class="inp" style="flex-grow: 1; min-width: 0; min-height: 44px" value="{{editName}}" onChange="{{onEditName}}" onKeyDown="{{m.editKey}}" aria-label="Sửa tên {{m.name}}" autoComplete="off">
+                <button class="ibtn" aria-label="Lưu tên" onClick="{{m.saveEdit}}" style="color: var(--pos)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></button>
+              </sc-if>
+              <sc-if value="{{m.notEditing}}" hint-placeholder-val="{{ true }}">
+                <div style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column">
+                  <span style="font-weight: 600; font-size: 16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{m.name}}</span>
+                  <span class="hint">{{m.sub}}</span>
+                </div>
+                <button class="ibtn" aria-label="{{m.orgAria}}" aria-pressed="{{m.isOrg}}" onClick="{{m.makeOrg}}" style="color: {{m.starColor}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="{{m.starFill}}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"></path></svg></button>
+                <button class="ibtn" aria-label="Sửa tên {{m.name}}" onClick="{{m.startEdit}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4zM14 6l4 4"></path></svg></button>
+                <button class="ibtn" aria-label="Xóa {{m.name}}" onClick="{{m.remove}}" style="color: var(--danger)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"></path></svg></button>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+    </sc-if>
+
+    <!-- STEP 3 · Hóa đơn -->
+    <sc-if value="{{is2}}" hint-placeholder-val="{{ false }}">
+      <sc-if value="{{noBills}}" hint-placeholder-val="{{ false }}">
+        <div class="card" style="padding: 40px 24px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center">
+          <span style="width: 64px; height: 64px; border-radius: 100px; background: var(--sel); color: var(--sel-text); display: flex; align-items: center; justify-content: center"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6M9 16h3"></path></svg></span>
+          <div style="font-weight: 700; font-size: 16px">Chưa có hóa đơn nào</div>
+          <div class="hint" style="font-size: 14px">Thêm hóa đơn đầu tiên nhé!</div>
+        </div>
+      </sc-if>
+      <sc-if value="{{hasBills}}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px">
+          <h2>{{billCountLabel}}</h2>
+          <span style="font-size: 14px; color: var(--text3)">Tổng <strong style="color: var(--text); font-size: 16px">{{grandTotal}}</strong></span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px">
+          <sc-for list="{{billCards}}" as="b" hint-placeholder-count="3">
+            <div style="position: relative; border-radius: 16px; overflow: hidden">
+              <div style="position: absolute; top: 0; right: 0; bottom: 0; width: 140px; background: var(--danger-bg); border-radius: 16px; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px">
+                <button class="ibtn" style="width: 76px; height: 76px; border-radius: 12px; color: var(--danger); flex-direction: column; gap: 2px; font-size: 13px; font-weight: 600" onClick="{{b.del}}" aria-label="Xóa hóa đơn {{b.name}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"></path></svg><span>Xóa</span></button>
+              </div>
+              <button type="button" class="card {{b.anim}}" style="position: relative; width: 100%; text-align: left; border: 0; padding: 16px; display: flex; flex-direction: column; gap: 12px; transform: translateX({{b.dx}}px); touch-action: pan-y; user-select: none" onClick="{{b.open}}" onPointerDown="{{b.pd}}" onPointerMove="{{b.pm}}" onPointerUp="{{b.pu}}" onPointerCancel="{{b.pu}}" aria-label="{{b.aria}}">
+                <span style="display: flex; align-items: flex-start; gap: 12px; width: 100%">
+                  <span style="width: 40px; height: 40px; border-radius: 12px; background: var(--sel); color: var(--sel-text); display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6M9 16h3"></path></svg></span>
+                  <span style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+                    <span style="font-weight: 700; font-size: 16px">{{b.name}}</span>
+                    <span class="hint">{{b.sub}}</span>
+                  </span>
+                  <span style="font-weight: 700; font-size: 16px; white-space: nowrap">{{b.amount}}</span>
+                </span>
+                <span style="display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 8px">
+                  <span style="display: flex; padding-left: 4px">
+                    <sc-for list="{{b.avs}}" as="a" hint-placeholder-count="4"><span class="av av-s" style="background: {{a.color}}; margin-left: -4px">{{a.ini}}</span></sc-for>
+                  </span>
+                  <sc-if value="{{b.hasSp}}" hint-placeholder-val="{{ false }}"><span class="badge b-gift"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16v9H4zM3 7h18v4H3zM12 7v13M12 7c-1.5-3-5-3.5-5-1.2C7 7 9 7 12 7zM12 7c1.5-3 5-3.5 5-1.2C17 7 15 7 12 7z"></path></svg>{{b.spText}}</span></sc-if>
+                </span>
+                <sc-if value="{{b.hasNote}}" hint-placeholder-val="{{ false }}"><span class="hint" style="font-style: italic">{{b.note}}</span></sc-if>
+                <sc-if value="{{b.hasPhoto}}" hint-placeholder-val="{{ false }}"><span class="hint" style="display: flex; align-items: center; gap: 6px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4zM12 10.5a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"></path></svg>Có ảnh hóa đơn</span></sc-if>
+              </button>
+            </div>
+          </sc-for>
+        </div>
+        <div class="hint" style="text-align: center">Chạm để sửa · vuốt sang trái để xóa</div>
+      </sc-if>
+    </sc-if>
+
+    <!-- STEP 4 · Tổng kết -->
+    <sc-if value="{{is3}}" hint-placeholder-val="{{ false }}">
+      <div class="card" style="padding: 20px; background: var(--primary); color: var(--on-primary); box-shadow: none">
+        <div style="font-size: 14px; opacity: .85">Tổng chi · {{partyNameShow}}</div>
+        <div style="font-size: 32px; line-height: 40px; font-weight: 700; margin-top: 4px">{{grandTotal}}</div>
+        <div style="font-size: 14px; opacity: .85; margin-top: 4px">{{summarySub}}</div>
+      </div>
+      <section style="display: flex; flex-direction: column; gap: 12px">
+        <div>
+          <h2>Ai trả cho ai</h2>
+          <div class="hint" style="font-size: 14px; margin-top: 2px">{{txSub}}</div>
+        </div>
+        <div class="seg" role="tablist" aria-label="Cách thanh toán">
+          <sc-for list="{{modes}}" as="t" hint-placeholder-count="2"><button role="tab" class="{{t.cls}}" aria-selected="{{t.on}}" onClick="{{t.pick}}">{{t.label}}</button></sc-for>
+        </div>
+        <sc-if value="{{hasTx}}" hint-placeholder-val="{{ true }}">
+          <div class="card" style="overflow: hidden">
+            <sc-for list="{{txs}}" as="t" hint-placeholder-count="4">
+              <div style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; min-height: 64px; border-top: {{t.bt}}">
+                <span class="av" style="background: {{t.fromColor}}">{{t.fromIni}}</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+                <span class="av" style="background: {{t.toColor}}">{{t.toIni}}</span>
+                <span style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column; padding-left: 4px">
+                  <span style="font-weight: 600">{{t.fromName}} trả {{t.toName}}</span>
+                  <sc-if value="{{t.paid}}" hint-placeholder-val="{{ false }}"><span style="font-size: 12px; color: var(--pos); font-weight: 600">Đã trả</span></sc-if>
+                </span>
+                <span style="font-weight: 700; white-space: nowrap">{{t.amt}}</span>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{noTx}}" hint-placeholder-val="{{ false }}">
+          <div class="card" style="padding: 20px; text-align: center; color: var(--text2)">Không ai nợ ai. Mọi người đã cân bằng rồi!</div>
+        </sc-if>
+      </section>
+      <section style="display: flex; flex-direction: column; gap: 12px">
+        <h2>Từng người</h2>
+        <div class="card" style="overflow: hidden">
+          <sc-for list="{{persons}}" as="p" hint-placeholder-count="5">
+            <div style="border-top: {{p.bt}}">
+              <button type="button" style="width: 100%; display: flex; align-items: center; gap: 12px; padding: 12px 12px 12px 16px; border: 0; background: transparent; text-align: left; min-height: 68px" aria-expanded="{{p.open}}" onClick="{{p.toggle}}">
+                <span class="av av-l" style="background: {{p.color}}">{{p.ini}}</span>
+                <span style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column">
+                  <span style="font-weight: 700">{{p.name}}</span>
+                  <span class="hint">{{p.sub}}</span>
+                </span>
+                <span class="badge {{p.badgeCls}}">{{p.badge}}</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform: rotate({{p.rot}}deg); transition: transform .2s ease-out; flex-shrink: 0"><path d="M6 9l6 6 6-6"></path></svg>
+              </button>
+              <sc-if value="{{p.open}}" hint-placeholder-val="{{ false }}">
+                <div class="fade" style="padding: 0 16px 16px 72px; display: flex; flex-direction: column; gap: 8px; font-size: 14px">
+                  <sc-for list="{{p.rows}}" as="r" hint-placeholder-count="3">
+                    <div style="display: flex; justify-content: space-between; gap: 8px; align-items: center">
+                      <span style="display: flex; align-items: center; gap: 6px; min-width: 0; color: var(--text2)">{{r.name}}<sc-if value="{{r.isSp}}" hint-placeholder-val="{{ false }}"><span class="badge b-gift">{{r.spLabel}}</span></sc-if></span>
+                      <span style="font-weight: 600; white-space: nowrap">{{r.amt}}</span>
+                    </div>
+                  </sc-for>
+                  <div style="height: 1px; background: var(--line)"></div>
+                  <div style="display: flex; justify-content: space-between"><span style="color: var(--text2)">Phần phải chịu</span><strong>{{p.owed}}</strong></div>
+                  <div style="display: flex; justify-content: space-between"><span style="color: var(--text2)">Đã ứng trước</span><strong>{{p.paidUp}}</strong></div>
+                </div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+      <section style="display: flex; flex-direction: column; gap: 12px">
+        <h2>Từng hóa đơn</h2>
+        <sc-for list="{{billSum}}" as="b" hint-placeholder-count="3">
+          <div class="card" style="overflow: hidden">
+            <button type="button" style="width: 100%; display: flex; align-items: center; gap: 12px; padding: 14px 12px 14px 16px; border: 0; background: transparent; text-align: left; min-height: 68px" aria-expanded="{{b.open}}" onClick="{{b.toggle}}">
+              <span style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+                <span style="font-weight: 700">{{b.name}}</span>
+                <span class="hint">{{b.sub}}</span>
+              </span>
+              <span style="font-weight: 700; white-space: nowrap">{{b.amount}}</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform: rotate({{b.rot}}deg); transition: transform .2s ease-out; flex-shrink: 0"><path d="M6 9l6 6 6-6"></path></svg>
+            </button>
+            <sc-if value="{{b.open}}" hint-placeholder-val="{{ false }}">
+              <div class="fade" style="padding: 0 16px 16px; display: flex; flex-direction: column; gap: 10px">
+                <sc-if value="{{b.hasSp}}" hint-placeholder-val="{{ false }}"><span class="badge b-gift" style="align-self: flex-start"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16v9H4zM3 7h18v4H3zM12 7v13M12 7c-1.5-3-5-3.5-5-1.2C7 7 9 7 12 7zM12 7c1.5-3 5-3.5 5-1.2C17 7 15 7 12 7z"></path></svg>{{b.spText}}</span></sc-if>
+                <sc-for list="{{b.rows}}" as="r" hint-placeholder-count="4">
+                  <div style="display: flex; align-items: center; gap: 10px; font-size: 14px">
+                    <span class="av av-s" style="background: {{r.color}}; box-shadow: none">{{r.ini}}</span>
+                    <span style="flex-grow: 1; color: var(--text2)">{{r.name}}</span>
+                    <span style="font-weight: 600">{{r.amt}}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </section>
+    </sc-if>
+
+    <!-- STEP 5 · Mã QR -->
+    <sc-if value="{{is4}}" hint-placeholder-val="{{ false }}">
+      <p style="margin: 0; font-size: 15px; color: var(--text2)">{{qrIntro}}</p>
+      <sc-if value="{{noRecv}}" hint-placeholder-val="{{ false }}">
+        <div class="card" style="padding: 24px; text-align: center; color: var(--text2)">Không ai cần nhận tiền, nên chưa cần mã QR nào.</div>
+      </sc-if>
+      <sc-for list="{{recv}}" as="r" hint-placeholder-count="2">
+        <div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 14px">
+          <div style="display: flex; align-items: center; gap: 12px">
+            <span class="av av-l" style="background: {{r.color}}">{{r.ini}}</span>
+            <div style="flex-grow: 1; min-width: 0">
+              <div style="font-weight: 700; display: flex; align-items: center; gap: 8px">{{r.name}}<sc-if value="{{r.isOrg}}" hint-placeholder-val="{{ false }}"><span class="badge b-pos">Người tổ chức</span></sc-if></div>
+              <div class="hint">Sẽ nhận {{r.amt}} từ {{r.fromNames}}</div>
+            </div>
+          </div>
+          <div class="seg" role="tablist" aria-label="Cách thêm mã QR cho {{r.name}}">
+            <button role="tab" class="{{r.upCls}}" aria-selected="{{r.isUp}}" onClick="{{r.setUp}}">Ảnh QR có sẵn</button>
+            <button role="tab" class="{{r.autoCls}}" aria-selected="{{r.isAuto}}" onClick="{{r.setAuto}}">Tạo VietQR</button>
+          </div>
+          <sc-if value="{{r.isUp}}" hint-placeholder-val="{{ false }}">
+            <sc-if value="{{r.hasImg}}" hint-placeholder-val="{{ false }}">
+              <div style="display: flex; gap: 16px; align-items: center">
+                <img src="{{r.img}}" alt="Mã QR của {{r.name}}" style="width: 128px; height: 128px; object-fit: contain; border-radius: 12px; background: #ffffff; border: 1px solid var(--line)">
+                <div style="display: flex; flex-direction: column; gap: 4px; align-items: flex-start">
+                  <label class="btn btn-o btn-s" style="position: relative">Đổi ảnh<input type="file" accept="image/*" class="fi" onChange="{{r.upload}}" aria-label="Đổi ảnh QR của {{r.name}}"></label>
+                  <button class="lnk" style="color: var(--danger)" onClick="{{r.clearImg}}">Xóa ảnh</button>
+                </div>
+              </div>
+            </sc-if>
+            <sc-if value="{{r.noImg}}" hint-placeholder-val="{{ true }}">
+              <label style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 20px 16px; border: 1.5px dashed var(--line); border-radius: 12px; text-align: center; background: var(--bg)">
+                <span style="color: var(--sel-text)"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4zM12 10.5a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"></path></svg></span>
+                <span style="font-weight: 700">Tải ảnh QR lên</span>
+                <span class="hint">Ảnh chụp VietQR, MoMo hoặc ZaloPay · tối đa 2MB, tự nén</span>
+                <input type="file" accept="image/*" class="fi" onChange="{{r.upload}}" aria-label="Tải ảnh QR của {{r.name}}">
+              </label>
+            </sc-if>
+          </sc-if>
+          <sc-if value="{{r.isAuto}}" hint-placeholder-val="{{ true }}">
+            <sc-if value="{{r.hasAuto}}" hint-placeholder-val="{{ true }}">
+              <div style="display: flex; gap: 14px; align-items: center">
+                <svg width="128" height="128" viewBox="0 0 100 100" role="img" aria-label="VietQR mẫu của {{r.name}}" style="background: #ffffff; border-radius: 12px; border: 1px solid var(--line); flex-shrink: 0"><path d="{{r.qr}}" fill="#0c0d0e"></path></svg>
+                <div class="hint" style="font-size: 13px">Mã tự điền đúng số tiền và nội dung cho từng người. Ví dụ: {{r.autoSample}}</div>
+              </div>
+            </sc-if>
+            <sc-if value="{{r.noAuto}}" hint-placeholder-val="{{ false }}">
+              <div class="hint" style="padding: 14px 16px; border-radius: 12px; background: var(--bg); font-size: 14px">Chọn ngân hàng và nhập số tài khoản bên dưới để tạo mã.</div>
+            </sc-if>
+          </sc-if>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label class="lbl" for="bk-{{r.id}}">Ngân hàng</label>
+            <select id="bk-{{r.id}}" class="inp" value="{{r.bin}}" onChange="{{r.onBin}}">
+              <option value="">Chọn ngân hàng</option>
+              <option value="970436">Vietcombank</option>
+              <option value="970407">Techcombank</option>
+              <option value="970422">MB Bank</option>
+              <option value="970418">BIDV</option>
+              <option value="970415">VietinBank</option>
+              <option value="970416">ACB</option>
+              <option value="970432">VPBank</option>
+              <option value="970423">TPBank</option>
+              <option value="970403">Sacombank</option>
+              <option value="970441">VIB</option>
+            </select>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label class="lbl" for="ac-{{r.id}}">Số tài khoản</label>
+            <div style="display: flex; gap: 8px">
+              <input id="ac-{{r.id}}" class="inp" style="flex-grow: 1; min-width: 0" inputMode="numeric" value="{{r.acc}}" onChange="{{r.onAcc}}" placeholder="VD: 0123456789" autoComplete="off">
+              <button class="btn btn-o btn-s" style="min-height: 52px" onClick="{{r.copyAcc}}" aria-label="Sao chép số tài khoản của {{r.name}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 9h11v11H9zM5 15H4V4h11v1"></path></svg>Chép</button>
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label class="lbl" for="ho-{{r.id}}">Chủ tài khoản</label>
+            <input id="ho-{{r.id}}" class="inp" style="text-transform: uppercase" value="{{r.holder}}" onChange="{{r.onHolder}}" placeholder="VD: NGUYEN VAN A" autoComplete="off">
+          </div>
+        </div>
+      </sc-for>
+      <sc-if value="{{hasNonRecv}}" hint-placeholder-val="{{ false }}">
+        <div class="hint" style="text-align: center; font-size: 14px">{{nonRecvText}}</div>
+      </sc-if>
+    </sc-if>
+
+    <!-- STEP 6 · Chia sẻ -->
+    <sc-if value="{{is5}}" hint-placeholder-val="{{ false }}">
+      <div class="card" style="padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center">
+        <div class="hint" style="font-size: 14px">Link cho cả nhóm · chỉ xem và đánh dấu đã trả</div>
+        <svg width="168" height="168" viewBox="0 0 100 100" role="img" aria-label="Mã QR của link chia sẻ" style="background: #ffffff; border-radius: 12px; border: 1px solid var(--line)"><path d="{{linkQr}}" fill="#0c0d0e"></path></svg>
+        <div style="font-weight: 700; font-size: 16px; overflow-wrap: anywhere">{{pubShort}}</div>
+        <button class="btn btn-p" style="width: 100%" onClick="{{copyPub}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 9h11v11H9zM5 15H4V4h11v1"></path></svg>Sao chép link</button>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; width: 100%">
+          <button class="btn btn-o btn-s" style="padding: 0 8px" onClick="{{shareZalo}}">Zalo</button>
+          <button class="btn btn-o btn-s" style="padding: 0 8px" onClick="{{shareMess}}">Messenger</button>
+          <button class="btn btn-o btn-s" style="padding: 0 8px" onClick="{{shareMore}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 14v6h14v-6"></path></svg>Khác</button>
+        </div>
+      </div>
+      <div class="card" style="padding: 12px 8px 12px 16px; display: flex; gap: 12px; align-items: center">
+        <div style="flex-grow: 1; min-width: 0">
+          <div style="font-weight: 700">Link quản lý</div>
+          <div class="hint">Chỉ gửi cho người cùng sửa hóa đơn</div>
+          <div style="font-size: 13px; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{editShort}}</div>
+        </div>
+        <button class="ibtn" aria-label="Sao chép link quản lý" onClick="{{copyEdit}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 9h11v11H9zM5 15H4V4h11v1"></path></svg></button>
+      </div>
+      <section style="display: flex; flex-direction: column; gap: 12px">
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px">
+          <h2>Tình hình thanh toán</h2>
+          <span class="badge {{payBadgeCls}}">{{payProgress}}</span>
+        </div>
+        <div style="height: 6px; border-radius: 6px; background: var(--line); overflow: hidden"><div style="height: 100%; width: {{payPct}}%; background: var(--accent); transition: width .4s ease-out"></div></div>
+        <sc-if value="{{allPaid}}" hint-placeholder-val="{{ false }}">
+          <div class="card" style="position: relative; overflow: hidden; padding: 28px 20px 24px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; background: var(--pos-bg); box-shadow: none">
+            <sc-for list="{{confetti}}" as="c" hint-placeholder-count="0"><span class="conf" style="left: {{c.left}}%; background: {{c.color}}; animation-delay: {{c.delay}}s"></span></sc-for>
+            <span class="pop" style="width: 64px; height: 64px; border-radius: 100px; background: var(--pos); color: var(--pos-bg); display: flex; align-items: center; justify-content: center"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></span>
+            <div style="font-weight: 700; font-size: 18px; color: var(--pos)">Xong hết rồi!</div>
+            <div style="font-size: 14px; color: var(--pos)">Mọi khoản đã được thanh toán. Cảm ơn cả nhóm nhé.</div>
+          </div>
+        </sc-if>
+        <sc-if value="{{hasTx}}" hint-placeholder-val="{{ true }}">
+          <div class="card" style="overflow: hidden">
+            <sc-for list="{{txs}}" as="t" hint-placeholder-count="4">
+              <div style="display: flex; align-items: center; gap: 8px; padding: 10px 12px 10px 16px; min-height: 64px; border-top: {{t.bt}}">
+                <span class="av" style="background: {{t.fromColor}}">{{t.fromIni}}</span>
+                <span style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column">
+                  <span style="font-weight: 600">{{t.fromName}} → {{t.toName}}</span>
+                  <span class="hint">{{t.amt}}</span>
+                </span>
+                <button class="pbtn {{t.stCls}}" aria-pressed="{{t.paid}}" onClick="{{t.toggle}}">{{t.stText}}</button>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </section>
+    </sc-if>
+  </main>
+
+  <div class="bar" style="flex-shrink: 0; padding: 12px 16px 16px; background: var(--card); border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px">
+    <sc-if value="{{barHint}}" hint-placeholder-val="{{ false }}"><div class="hint" style="text-align: center">{{barHintText}}</div></sc-if>
+    <div style="display: flex; gap: 8px">
+      <sc-if value="{{showAddBill}}" hint-placeholder-val="{{ false }}">
+        <button class="btn {{addBillCls}}" style="flex: 1 1 0" onClick="{{openNew}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Thêm hóa đơn</button>
+      </sc-if>
+      <sc-if value="{{showNext}}" hint-placeholder-val="{{ true }}">
+        <button class="btn btn-p" style="flex: 1 1 0" onClick="{{next}}" disabled="{{nextDisabled}}">{{nextLabel}}</button>
+      </sc-if>
+      <sc-if value="{{is5}}" hint-placeholder-val="{{ false }}">
+        <button class="btn btn-p" style="flex: 1 1 0" onClick="{{enterViewer}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"></path></svg>Xem trang người nhận link</button>
+      </sc-if>
+    </div>
+  </div>
+
+  <aside class="d-only sum scroll" aria-label="Tóm tắt" style="display: flex; flex-direction: column; gap: 20px; padding: 32px 24px; background: var(--card); min-height: 0">
+    <div>
+      <div class="hint" style="font-weight: 600">Tổng chi</div>
+      <div style="font-size: 28px; line-height: 36px; font-weight: 700">{{grandTotal}}</div>
+      <div class="hint">{{summarySub}}</div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <div style="font-weight: 700">Từng người</div>
+      <sc-for list="{{persons}}" as="p" hint-placeholder-count="5">
+        <div style="display: flex; align-items: center; gap: 10px; min-height: 40px">
+          <span class="av" style="background: {{p.color}}">{{p.ini}}</span>
+          <span style="flex-grow: 1; min-width: 0; font-weight: 600">{{p.name}}</span>
+          <span class="badge {{p.badgeCls}}">{{p.badge}}</span>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <div style="font-weight: 700">Chuyển khoản</div>
+      <div class="hint">{{txSub}}</div>
+      <sc-for list="{{txs}}" as="t" hint-placeholder-count="4">
+        <div style="display: flex; align-items: center; gap: 8px; min-height: 40px; font-size: 14px">
+          <span class="av av-s" style="background: {{t.fromColor}}; box-shadow: none">{{t.fromIni}}</span>
+          <span style="flex-grow: 1; min-width: 0">{{t.fromName}} → {{t.toName}}</span>
+          <strong style="white-space: nowrap">{{t.amt}}</strong>
+        </div>
+      </sc-for>
+    </div>
+  </aside>
+</sc-if>
+
+<!-- ================= VIEWER (public link) ================= -->
+<sc-if value="{{viewer}}" hint-placeholder-val="{{ false }}">
+  <div style="flex-shrink: 0; display: flex; align-items: center; gap: 8px; padding: 6px 8px 6px 16px; background: var(--sel); color: var(--sel-text); font-size: 13px; font-weight: 600">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"></path></svg>
+    <span style="flex-grow: 1">Xem trước trang công khai</span>
+    <button class="lnk" style="color: var(--sel-text); text-decoration: underline" onClick="{{exitViewer}}">Về trang quản lý</button>
+  </div>
+  <header style="flex-shrink: 0; background: var(--card); border-bottom: 1px solid var(--line); padding: 12px 8px 12px 16px; display: flex; align-items: center; gap: 12px">
+    <span style="width: 44px; height: 44px; border-radius: 14px; background: {{party.color}}; color: #ffffff; display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{coverPath}}"></path></svg></span>
+    <div style="flex-grow: 1; min-width: 0">
+      <div style="font-weight: 700; font-size: 17px">{{partyNameShow}}</div>
+      <div class="hint">{{partyDateShow}} · {{grandTotal}}</div>
+    </div>
+    <button class="ibtn" aria-label="{{themeLabel}}" onClick="{{toggleDark}}">
+      <sc-if value="{{dark}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if>
+      <sc-if value="{{light}}" hint-placeholder-val="{{ true }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg></sc-if>
+    </button>
+  </header>
+  <main class="scroll mn" style="flex-grow: 1; min-height: 0; padding: 20px 16px 28px; display: flex; flex-direction: column; gap: 20px">
+    <section style="display: flex; flex-direction: column; gap: 10px">
+      <h2 id="me-l">Tôi là…</h2>
+      <div role="radiogroup" aria-labelledby="me-l" style="display: flex; flex-wrap: wrap; gap: 8px">
+        <sc-for list="{{meChips}}" as="c" hint-placeholder-count="5">
+          <button role="radio" aria-checked="{{c.on}}" class="chip {{c.cls}}" onClick="{{c.pick}}"><span class="av" style="background: {{c.color}}">{{c.ini}}</span>{{c.name}}</button>
+        </sc-for>
+      </div>
+    </section>
+    <sc-if value="{{noMe}}" hint-placeholder-val="{{ true }}">
+      <div class="card" style="padding: 20px; text-align: center; color: var(--text2)">Chọn tên của bạn để xem số tiền cần trả và mã QR.</div>
+    </sc-if>
+    <sc-if value="{{hasMe}}" hint-placeholder-val="{{ false }}">
+      <div class="card fade" style="padding: 20px; background: var(--primary); color: var(--on-primary); box-shadow: none">
+        <div style="font-size: 14px; opacity: .85">Xin chào {{me.name}}</div>
+        <div style="font-size: 26px; line-height: 34px; font-weight: 700; margin-top: 4px">{{me.headline}}</div>
+        <div style="font-size: 14px; opacity: .85; margin-top: 4px">{{me.headSub}}</div>
+      </div>
+      <sc-if value="{{me.allOutPaid}}" hint-placeholder-val="{{ false }}">
+        <div class="card pop" style="padding: 16px; display: flex; align-items: center; gap: 12px; background: var(--pos-bg); color: var(--pos); box-shadow: none; font-weight: 600">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>Bạn đã trả xong phần của mình. Cảm ơn nhé!
+        </div>
+      </sc-if>
+      <sc-for list="{{me.outs}}" as="o" hint-placeholder-count="1">
+        <div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 14px">
+          <div style="display: flex; align-items: center; gap: 12px">
+            <span class="av av-l" style="background: {{o.toColor}}">{{o.toIni}}</span>
+            <div style="flex-grow: 1; min-width: 0">
+              <div style="font-weight: 700">Trả cho {{o.toName}}</div>
+              <div style="font-size: 20px; line-height: 28px; font-weight: 700">{{o.amt}}</div>
+            </div>
+            <sc-if value="{{o.paid}}" hint-placeholder-val="{{ false }}"><span class="badge b-pos">Đã trả</span></sc-if>
+          </div>
+          <sc-if value="{{o.hasImg}}" hint-placeholder-val="{{ false }}">
+            <img src="{{o.img}}" alt="Mã QR của {{o.toName}}" style="width: 220px; height: 220px; object-fit: contain; align-self: center; border-radius: 12px; background: #ffffff; border: 1px solid var(--line)">
+          </sc-if>
+          <sc-if value="{{o.hasAuto}}" hint-placeholder-val="{{ true }}">
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 6px">
+              <svg width="220" height="220" viewBox="0 0 100 100" role="img" aria-label="VietQR chuyển {{o.amt}} cho {{o.toName}}" style="background: #ffffff; border-radius: 12px; border: 1px solid var(--line)"><path d="{{o.qr}}" fill="#0c0d0e"></path></svg>
+              <span class="hint">VietQR đã điền sẵn số tiền và nội dung</span>
+            </div>
+          </sc-if>
+          <sc-if value="{{o.noQr}}" hint-placeholder-val="{{ false }}">
+            <div class="hint" style="padding: 14px 16px; border-radius: 12px; background: var(--bg); font-size: 14px; text-align: center">{{o.toName}} chưa thêm mã QR. Hãy nhắn {{o.toName}} số tài khoản nhé.</div>
+          </sc-if>
+          <sc-if value="{{o.hasBank}}" hint-placeholder-val="{{ true }}">
+            <div style="display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; border-radius: 12px; background: var(--bg); font-size: 14px">
+              <div style="display: flex; justify-content: space-between; gap: 8px"><span style="color: var(--text3)">Ngân hàng</span><strong>{{o.bankName}}</strong></div>
+              <div style="display: flex; justify-content: space-between; gap: 8px"><span style="color: var(--text3)">Số tài khoản</span><strong>{{o.acc}}</strong></div>
+              <div style="display: flex; justify-content: space-between; gap: 8px"><span style="color: var(--text3)">Chủ tài khoản</span><strong style="text-align: right">{{o.holder}}</strong></div>
+              <div style="display: flex; justify-content: space-between; gap: 8px"><span style="color: var(--text3)">Nội dung</span><strong>{{o.note}}</strong></div>
+            </div>
+          </sc-if>
+          <div style="display: flex; gap: 8px">
+            <sc-if value="{{o.hasBank}}" hint-placeholder-val="{{ true }}">
+              <button class="btn btn-o btn-s" style="flex: 1 1 0; padding: 0 8px" onClick="{{o.copyAcc}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 9h11v11H9zM5 15H4V4h11v1"></path></svg>Sao chép số tài khoản</button>
+            </sc-if>
+            <button class="btn {{o.paidBtnCls}} btn-s" style="flex: 1 1 0; padding: 0 8px" aria-pressed="{{o.paid}}" onClick="{{o.toggle}}">{{o.paidBtnText}}</button>
+          </div>
+        </div>
+      </sc-for>
+      <sc-for list="{{me.ins}}" as="i" hint-placeholder-count="0">
+        <div class="card" style="padding: 12px 16px; display: flex; align-items: center; gap: 12px; min-height: 64px">
+          <span class="av" style="background: {{i.fromColor}}">{{i.fromIni}}</span>
+          <span style="flex-grow: 1; min-width: 0">{{i.fromName}} sẽ trả bạn <strong>{{i.amt}}</strong></span>
+          <span class="badge {{i.stCls}}">{{i.stText}}</span>
+        </div>
+      </sc-for>
+      <section style="display: flex; flex-direction: column; gap: 10px">
+        <h2>Phần của bạn trong từng hóa đơn</h2>
+        <div class="card" style="padding: 8px 16px">
+          <sc-for list="{{me.rows}}" as="r" hint-placeholder-count="3">
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; min-height: 44px; border-top: {{r.bt}}; font-size: 14px">
+              <span style="display: flex; align-items: center; gap: 6px; color: var(--text2)">{{r.name}}<sc-if value="{{r.isSp}}" hint-placeholder-val="{{ false }}"><span class="badge b-gift">{{r.spLabel}}</span></sc-if></span>
+              <strong>{{r.amt}}</strong>
+            </div>
+          </sc-for>
+          <sc-if value="{{me.noRows}}" hint-placeholder-val="{{ false }}"><div class="hint" style="padding: 12px 0">Bạn không tham gia hóa đơn nào.</div></sc-if>
+        </div>
+      </section>
+    </sc-if>
+    <section style="display: flex; flex-direction: column; gap: 10px">
+      <h2>Tất cả khoản chuyển</h2>
+      <sc-if value="{{noTx}}" hint-placeholder-val="{{ false }}"><div class="card" style="padding: 20px; text-align: center; color: var(--text2)">Không ai nợ ai cả.</div></sc-if>
+      <sc-if value="{{hasTx}}" hint-placeholder-val="{{ true }}">
+        <div class="card" style="overflow: hidden">
+          <sc-for list="{{txs}}" as="t" hint-placeholder-count="4">
+            <div style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; min-height: 56px; border-top: {{t.bt}}; background: {{t.meBg}}">
+              <span class="av av-s" style="background: {{t.fromColor}}; box-shadow: none">{{t.fromIni}}</span>
+              <span style="flex-grow: 1; min-width: 0; font-size: 14px">{{t.fromName}} → {{t.toName}} · <strong>{{t.amt}}</strong></span>
+              <span class="badge {{t.badgeCls}}">{{t.badgeText}}</span>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+    </section>
+  </main>
+</sc-if>
+
+<!-- ================= BILL EDITOR SHEET ================= -->
+<sc-if value="{{hasEditor}}" hint-placeholder-val="{{ false }}">
+  <div class="fade" style="position: absolute; inset: 0; background: var(--overlay); z-index: 20"></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="ed-t" style="position: absolute; left: 0; right: 0; bottom: 0; top: 28px; z-index: 21; background: var(--bg); border-radius: 16px 16px 0 0; display: flex; flex-direction: column; overflow: hidden">
+    <div style="flex-shrink: 0; display: flex; align-items: center; gap: 4px; padding: 8px 8px 8px 20px; background: var(--card); border-bottom: 1px solid var(--line)">
+      <h2 id="ed-t" style="flex-grow: 1">{{ed.title}}</h2>
+      <button class="ibtn" aria-label="Đóng" onClick="{{ed.close}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+    </div>
+    <div class="scroll" style="flex-grow: 1; min-height: 0; padding: 20px 16px 28px; display: flex; flex-direction: column; gap: 24px">
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <label class="lbl" for="en">Tên hóa đơn</label>
+        <input id="en" class="inp" value="{{ed.name}}" onChange="{{ed.onName}}" placeholder="VD: Lẩu, Karaoke, Taxi" maxLength="40" autoComplete="off">
+        <div style="display: flex; flex-wrap: wrap; gap: 6px">
+          <sc-for list="{{ed.quick}}" as="q" hint-placeholder-count="6"><button class="qchip {{q.cls}}" onClick="{{q.pick}}">{{q.label}}</button></sc-for>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <label class="lbl" for="ea">Số tiền</label>
+        <div style="position: relative">
+          <input id="ea" class="inp {{ed.amtErrCls}}" inputMode="numeric" value="{{ed.amtStr}}" onChange="{{ed.onAmt}}" placeholder="0" autoComplete="off" style="font-size: 22px; font-weight: 700; padding-right: 44px; min-height: 60px">
+          <span aria-hidden="true" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-size: 20px; color: var(--text3); font-weight: 600">đ</span>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 6px">
+          <sc-for list="{{ed.quickAmts}}" as="q" hint-placeholder-count="4"><button class="qchip" onClick="{{q.add}}">{{q.label}}</button></sc-for>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <div>
+          <div class="lbl" id="ep">Người trả</div>
+          <div class="hint">Ai đã trả tiền trước?</div>
+        </div>
+        <div role="radiogroup" aria-labelledby="ep" style="display: flex; flex-wrap: wrap; gap: 8px">
+          <sc-for list="{{ed.payers}}" as="c" hint-placeholder-count="5">
+            <button role="radio" aria-checked="{{c.on}}" class="chip {{c.cls}}" onClick="{{c.pick}}"><span class="av" style="background: {{c.color}}">{{c.ini}}</span>{{c.name}}</button>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px">
+          <div>
+            <div class="lbl" id="epa">Người tham gia · {{ed.partCount}}</div>
+            <div class="hint">Ai cùng dùng hóa đơn này?</div>
+          </div>
+          <button class="lnk" onClick="{{ed.toggleAll}}">{{ed.allLabel}}</button>
+        </div>
+        <div role="group" aria-labelledby="epa" style="display: flex; flex-wrap: wrap; gap: 8px">
+          <sc-for list="{{ed.parts}}" as="c" hint-placeholder-count="5">
+            <button aria-pressed="{{c.on}}" class="chip {{c.cls}}" onClick="{{c.toggle}}"><span class="av" style="background: {{c.color}}">{{c.ini}}</span>{{c.name}}<sc-if value="{{c.on}}" hint-placeholder-val="{{ true }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></sc-if></button>
+          </sc-for>
+        </div>
+        <sc-if value="{{ed.partErr}}" hint-placeholder-val="{{ false }}"><div style="font-size: 13px; color: var(--danger); font-weight: 600">Chọn ít nhất 1 người tham gia.</div></sc-if>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <div class="lbl">Chia kiểu</div>
+        <div class="seg" role="tablist" aria-label="Chia kiểu">
+          <sc-for list="{{ed.splits}}" as="t" hint-placeholder-count="3"><button role="tab" class="{{t.cls}}" aria-selected="{{t.on}}" onClick="{{t.pick}}">{{t.label}}</button></sc-for>
+        </div>
+        <sc-if value="{{ed.hasEach}}" hint-placeholder-val="{{ false }}"><div class="hint" style="font-size: 14px">{{ed.eachStr}}</div></sc-if>
+        <sc-if value="{{ed.isCustom}}" hint-placeholder-val="{{ false }}">
+          <div class="card" style="padding: 8px 12px 12px 16px; display: flex; flex-direction: column">
+            <sc-for list="{{ed.customRows}}" as="c" hint-placeholder-count="4">
+              <div style="display: flex; align-items: center; gap: 10px; min-height: 56px">
+                <span class="av" style="background: {{c.color}}">{{c.ini}}</span>
+                <label for="cu-{{c.id}}" style="flex-grow: 1; min-width: 0; font-weight: 600">{{c.name}}</label>
+                <div style="position: relative; width: 150px">
+                  <input id="cu-{{c.id}}" class="inp" inputMode="numeric" value="{{c.val}}" onChange="{{c.onVal}}" placeholder="0" autoComplete="off" style="min-height: 44px; text-align: right; padding-right: 32px; font-weight: 600">
+                  <span aria-hidden="true" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--text3); font-weight: 600">{{c.suffix}}</span>
+                </div>
+              </div>
+            </sc-for>
+            <div style="display: flex; justify-content: flex-end; padding-top: 6px"><span class="badge {{ed.remCls}}" aria-live="polite">{{ed.remText}}</span></div>
+          </div>
+        </sc-if>
+      </div>
+
+      <button type="button" role="switch" aria-checked="{{ed.spOn}}" onClick="{{ed.toggleSp}}" style="display: flex; align-items: center; gap: 12px; width: 100%; min-height: 64px; padding: 12px 16px; border: 1px dashed var(--line); border-radius: 16px; background: transparent; text-align: left">
+        <span style="width: 40px; height: 40px; border-radius: 100px; background: var(--warn-bg); color: var(--warn); display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16v9H4zM3 7h18v4H3zM12 7v13M12 7c-1.5-3-5-3.5-5-1.2C7 7 9 7 12 7zM12 7c1.5-3 5-3.5 5-1.2C17 7 15 7 12 7z"></path></svg></span>
+        <span style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column">
+          <span style="font-weight: 700">Tài trợ <span style="font-weight: 400; color: var(--text3)">· không bắt buộc</span></span>
+          <span class="hint">Bật nếu có người bao trọn hoặc góp một khoản</span>
+        </span>
+        <span class="trk {{ed.spTrk}}" aria-hidden="true"><span></span></span>
+      </button>
+      <sc-if value="{{ed.spOn}}" hint-placeholder-val="{{ false }}">
+        <div class="card fade" style="padding: 16px; display: flex; flex-direction: column; gap: 14px; margin-top: -12px">
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <div class="lbl" id="esp">Ai tài trợ?</div>
+            <div role="group" aria-labelledby="esp" style="display: flex; flex-wrap: wrap; gap: 8px">
+              <sc-for list="{{ed.spChips}}" as="c" hint-placeholder-count="5">
+                <button aria-pressed="{{c.on}}" class="chip {{c.cls}}" onClick="{{c.toggle}}"><span class="av" style="background: {{c.color}}">{{c.ini}}</span>{{c.name}}</button>
+              </sc-for>
+            </div>
+          </div>
+          <div class="seg" role="tablist" aria-label="Kiểu tài trợ">
+            <sc-for list="{{ed.spTypes}}" as="t" hint-placeholder-count="2"><button role="tab" class="{{t.cls}}" aria-selected="{{t.on}}" onClick="{{t.pick}}">{{t.label}}</button></sc-for>
+          </div>
+          <sc-if value="{{ed.isFixed}}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label class="lbl" for="esa">{{ed.spAmtLabel}}</label>
+              <div style="position: relative">
+                <input id="esa" class="inp" inputMode="numeric" value="{{ed.spAmtStr}}" onChange="{{ed.onSpAmt}}" placeholder="VD: 500.000" autoComplete="off" style="padding-right: 40px; font-weight: 600">
+                <span aria-hidden="true" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--text3); font-weight: 600">đ</span>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ed.hasSpPreview}}" hint-placeholder-val="{{ false }}"><div style="font-size: 14px; color: var(--warn); background: var(--warn-bg); padding: 10px 12px; border-radius: 12px">{{ed.spPreview}}</div></sc-if>
+        </div>
+      </sc-if>
+
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <label class="lbl" for="eno">Ghi chú (không bắt buộc)</label>
+        <textarea id="eno" class="inp" value="{{ed.note}}" onChange="{{ed.onNote}}" placeholder="VD: Quán Bà Tư, tối thứ Bảy" style="min-height: 76px; padding: 12px 16px; resize: none; line-height: 22px"></textarea>
+        <sc-if value="{{ed.hasPhoto}}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; gap: 12px; align-items: center">
+            <img src="{{ed.photo}}" alt="Ảnh hóa đơn" style="width: 72px; height: 72px; object-fit: cover; border-radius: 12px; border: 1px solid var(--line)">
+            <button class="lnk" style="color: var(--danger)" onClick="{{ed.clearPhoto}}">Xóa ảnh</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ed.noPhoto}}" hint-placeholder-val="{{ true }}">
+          <label class="btn btn-o btn-s" style="position: relative; align-self: flex-start"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4zM12 10.5a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"></path></svg>Thêm ảnh hóa đơn<input type="file" accept="image/*" class="fi" onChange="{{ed.onPhoto}}" aria-label="Thêm ảnh hóa đơn"></label>
+        </sc-if>
+      </div>
+
+      <sc-if value="{{ed.hasPreview}}" hint-placeholder-val="{{ false }}">
+        <div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 10px">
+          <div style="font-weight: 700">Mỗi người trả</div>
+          <sc-for list="{{ed.preview}}" as="p" hint-placeholder-count="4">
+            <div style="display: flex; align-items: center; gap: 10px; font-size: 14px">
+              <span class="av av-s" style="background: {{p.color}}; box-shadow: none">{{p.ini}}</span>
+              <span style="flex-grow: 1; display: flex; align-items: center; gap: 6px; color: var(--text2)">{{p.name}}<sc-if value="{{p.hasTag}}" hint-placeholder-val="{{ false }}"><span class="badge b-gift">{{p.tag}}</span></sc-if></span>
+              <strong>{{p.amt}}</strong>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+    </div>
+    <div style="flex-shrink: 0; padding: 12px 16px 16px; background: var(--card); border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px">
+      <sc-if value="{{ed.showErr}}" hint-placeholder-val="{{ false }}">
+        <div role="alert" style="display: flex; flex-direction: column; gap: 2px; font-size: 13px; color: var(--danger); font-weight: 600">
+          <sc-for list="{{ed.errs}}" as="e" hint-placeholder-count="1"><span>{{e.t}}</span></sc-for>
+        </div>
+      </sc-if>
+      <button class="btn btn-p" style="width: 100%" onClick="{{ed.save}}">{{ed.saveLabel}}</button>
+    </div>
+  </div>
+</sc-if>
+
+<!-- ================= CONFIRM DIALOG ================= -->
+<sc-if value="{{hasConfirm}}" hint-placeholder-val="{{ false }}">
+  <div class="fade" style="position: absolute; inset: 0; background: var(--overlay); z-index: 30; display: flex; align-items: center; justify-content: center; padding: 24px">
+    <div class="card pop dlg" role="alertdialog" aria-modal="true" aria-labelledby="cf-t" aria-describedby="cf-d" style="width: 100%; padding: 24px; display: flex; flex-direction: column; gap: 12px; border-radius: 16px">
+      <span style="width: 48px; height: 48px; border-radius: 100px; background: var(--danger-bg); color: var(--danger); display: flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l10 18H2zM12 10v4M12 17.5h.01"></path></svg></span>
+      <h2 id="cf-t">Xóa {{cf.name}}?</h2>
+      <p id="cf-d" style="margin: 0; font-size: 15px; color: var(--text2)">{{cf.desc}}</p>
+      <div style="display: flex; gap: 8px; margin-top: 8px">
+        <button class="btn btn-o" style="flex: 1 1 0" onClick="{{cf.cancel}}">Hủy</button>
+        <button class="btn" style="flex: 1 1 0; background: var(--danger); color: var(--card)" onClick="{{cf.ok}}">Vẫn xóa</button>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<!-- ================= TOAST ================= -->
+<sc-if value="{{hasToast}}" hint-placeholder-val="{{ false }}">
+  <div class="toast" role="status" aria-live="polite" style="position: absolute; left: 16px; right: 16px; bottom: {{toastBottom}}px; z-index: 40; background: var(--toast-bg); color: var(--toast-text); border-radius: 12px; padding: 10px 8px 10px 16px; display: flex; align-items: center; gap: 8px; min-height: 48px; box-shadow: 0 12px 24px -4px #0c0d0e3d; font-size: 14px; font-weight: 600">
+    <span style="flex-grow: 1">{{toast.t}}</span>
+    <sc-if value="{{toastUndo}}" hint-placeholder-val="{{ false }}"><button class="lnk" style="color: var(--toast-text); text-decoration: underline; min-height: 36px" onClick="{{undo}}">Hoàn tác</button></sc-if>
+  </div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"desktop":{"editor":"boolean","default":true,"section":"Prototype"},"startStep":{"editor":"int","default":0,"min":0,"max":5,"section":"Prototype"},"dark":{"editor":"boolean","default":false,"section":"Prototype"},"$preview":{"width":1280,"height":800}}'>
+var AV = ['#002a61', '#9e0202', '#315e00', '#6b3fa0', '#623b02', '#0b36d2', '#0045a5', '#41474e'];
+var BANKS = { '970436': 'Vietcombank', '970407': 'Techcombank', '970422': 'MB Bank', '970418': 'BIDV', '970415': 'VietinBank', '970416': 'ACB', '970432': 'VPBank', '970423': 'TPBank', '970403': 'Sacombank', '970441': 'VIB' };
+var THEME = [{ hex: '#3c66ff', label: 'Xanh dương' }, { hex: '#002a61', label: 'Xanh navy' }, { hex: '#315e00', label: 'Xanh lá' }, { hex: '#0045a5', label: 'Xanh biển' }, { hex: '#623b02', label: 'Nâu' }, { hex: '#9e0202', label: 'Đỏ' }];
+var COVERS = [
+  { k: 'beach', label: 'Biển', path: 'M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM2 17c2.5 0 2.5-1.5 5-1.5s2.5 1.5 5 1.5 2.5-1.5 5-1.5 2.5 1.5 5 1.5M2 21c2.5 0 2.5-1.5 5-1.5s2.5 1.5 5 1.5 2.5-1.5 5-1.5 2.5 1.5 5 1.5' },
+  { k: 'food', label: 'Ăn uống', path: 'M3 11h18a9 9 0 0 1-18 0zM8 7c0-2 2-2 2-4M13 7c0-2 2-2 2-4' },
+  { k: 'cake', label: 'Sinh nhật', path: 'M4 21h16v-8H4zM4 16c2 1.5 4 1.5 5.3 0 1.4 1.5 4 1.5 5.4 0 1.3 1.5 3.3 1.5 5.3 0M12 13V9M12 6.5c-1 0-1.5-.8-1.5-1.5S12 3 12 3s1.5 1.3 1.5 2-.5 1.5-1.5 1.5z' },
+  { k: 'music', label: 'Karaoke', path: 'M9 18V5l11-2v13M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM20 16a3 3 0 1 1-6 0 3 3 0 0 1 6 0z' },
+  { k: 'car', label: 'Du lịch', path: 'M5 16h14v-4l-2-5H7l-2 5zM3 12h18M7 16v3M17 16v3M7.5 13.5h.01M16.5 13.5h.01' },
+  { k: 'star', label: 'Tiệc', path: 'M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2z' }
+];
+var STEPS = ['Buổi tiệc', 'Thành viên', 'Hóa đơn', 'Tổng kết', 'Mã QR', 'Chia sẻ'];
+var TITLES = ['Tạo buổi tiệc', 'Thêm thành viên', 'Thêm hóa đơn', 'Tổng kết', 'Mã QR thanh toán', 'Chia sẻ'];
+var QUICK = ['Lẩu', 'Nướng', 'Karaoke', 'Taxi', 'Cà phê', 'Khách sạn'];
+var CONF_COLORS = ['#3c66ff', '#a1d26a', '#e4b774', '#002a61', '#eeafaf'];
+var DESKTOP_DEFAULT = true;
+var PUB = 'https://chiabill.vn/p/vt26a9';
+var EDIT = 'https://chiabill.vn/p/vt26a9/sua?k=7Fq2Xm';
+
+function num(n) { var s = String(Math.abs(Math.round(n))).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); return (n < 0 ? '-' : '') + s; }
+function vnd(n) { return num(n) + 'đ'; }
+function r1k(x) { return Math.round(x / 1000) * 1000; }
+function ini(name) { var w = String(name || '?').trim().split(/\s+/); var l = w[w.length - 1] || '?'; return l.charAt(0).toUpperCase(); }
+function ascii(s) { return String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D'); }
+var _uid = 0; function uid(p) { _uid++; return p + Date.now().toString(36) + _uid; }
+function dateVi(s) {
+  if (!s) return 'Chưa chọn ngày';
+  var d = new Date(s + 'T00:00:00'); if (isNaN(d.getTime())) return s;
+  var W = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+  return W[d.getDay()] + ', ' + String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0') + '/' + d.getFullYear();
+}
+function joinNames(arr) { if (arr.length <= 1) return arr.join(''); return arr.slice(0, -1).join(', ') + ' và ' + arr[arr.length - 1]; }
+
+function calcBill(b, ids) {
+  var parts = b.parts.filter(function (id) { return ids.indexOf(id) >= 0; });
+  var sps = b.sponsorOn ? b.sponsors.filter(function (id) { return ids.indexOf(id) >= 0; }) : [];
+  var amt = b.amount || 0, sp = {}, sh = {}, errs = [], spTotal = 0;
+  if (sps.length && amt > 0) {
+    if (b.sponsorType === 'full') {
+      var e = r1k(amt / sps.length);
+      sps.forEach(function (id) { sp[id] = e; });
+      sp[sps[0]] += amt - e * sps.length; spTotal = amt;
+    } else {
+      var left = amt, per = b.sponsorAmount || 0;
+      sps.forEach(function (id) { var v = Math.min(per, left); sp[id] = v; left -= v; });
+      spTotal = amt - left;
+      if (!(per > 0)) errs.push('Nhập số tiền tài trợ.');
+      else if (per * sps.length > amt) errs.push('Tiền tài trợ đang vượt quá số tiền hóa đơn.');
+    }
+  } else if (b.sponsorOn && !sps.length) errs.push('Chọn ít nhất 1 người tài trợ.');
+  var rem = amt - spTotal, sum = 0;
+  parts.forEach(function (id) { sh[id] = 0; });
+  var sink = parts.indexOf(b.payer) >= 0 ? b.payer : parts[0];
+  if (parts.length && rem > 0) {
+    if (b.split === 'equal') {
+      var each = r1k(rem / parts.length);
+      parts.forEach(function (id) { sh[id] = each; });
+      sh[sink] += rem - each * parts.length;
+    } else if (b.split === 'amount') {
+      parts.forEach(function (id) { var v = (b.custom || {})[id] || 0; sh[id] = v; sum += v; });
+    } else {
+      parts.forEach(function (id) { var p = (b.custom || {})[id] || 0; sum += p; sh[id] = r1k(rem * p / 100); });
+      if (sum === 100) { var tot = parts.reduce(function (a, id) { return a + sh[id]; }, 0); sh[sink] += rem - tot; }
+    }
+  }
+  var remaining = b.split === 'amount' ? rem - sum : 100 - sum;
+  if (!(amt > 0)) errs.unshift('Nhập số tiền lớn hơn 0.');
+  if (!parts.length) errs.push('Chọn ít nhất 1 người tham gia.');
+  if (parts.length && rem > 0 && b.split !== 'equal' && remaining !== 0) errs.push(b.split === 'amount' ? 'Tổng các phần phải bằng ' + vnd(rem) + '.' : 'Tổng phần trăm phải bằng 100%.');
+  var total = {};
+  ids.forEach(function (id) { if (parts.indexOf(id) >= 0 || sps.indexOf(id) >= 0) total[id] = (sp[id] || 0) + (sh[id] || 0); });
+  return { parts: parts, sps: sps, sp: sp, sh: sh, total: total, rem: rem, spTotal: spTotal, remaining: remaining, errs: errs, ok: errs.length === 0 };
+}
+
+function settle(members, net) {
+  var cr = members.filter(function (m) { return net[m.id] > 0; }).map(function (m) { return { id: m.id, v: net[m.id] }; }).sort(function (a, b) { return b.v - a.v; });
+  var db = members.filter(function (m) { return net[m.id] < 0; }).map(function (m) { return { id: m.id, v: -net[m.id] }; }).sort(function (a, b) { return b.v - a.v; });
+  var tx = [], i = 0, j = 0;
+  while (i < db.length && j < cr.length) {
+    var a = Math.min(db[i].v, cr[j].v);
+    if (a > 0) tx.push({ from: db[i].id, to: cr[j].id, amt: a });
+    db[i].v -= a; cr[j].v -= a;
+    if (db[i].v === 0) i++;
+    if (cr[j].v === 0) j++;
+  }
+  return tx;
+}
+
+function settleHub(members, net, org) {
+  var tx = [];
+  members.forEach(function (m) { if (m.id !== org && net[m.id] < 0) tx.push({ from: m.id, to: org, amt: -net[m.id] }); });
+  members.forEach(function (m) { if (m.id !== org && net[m.id] > 0) tx.push({ from: org, to: m.id, amt: net[m.id] }); });
+  return tx;
+}
+
+/* ---- QR code (byte mode, ECC level M, mask 0) ---- */
+function qrMatrix(text) {
+  var ECC = [-1, 10, 16, 26, 18, 24, 16, 18, 22, 22, 26, 30, 22, 22, 24, 24, 28, 28, 26, 26, 26, 26, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28];
+  var NB = [-1, 1, 1, 1, 2, 2, 4, 4, 4, 5, 5, 5, 8, 9, 9, 10, 10, 11, 13, 14, 16, 17, 17, 18, 20, 21, 23, 25, 26, 28, 29, 31, 33, 35, 37, 38, 40, 43, 45, 47, 49];
+  var bytes = Array.from(new TextEncoder().encode(text));
+  function rawMods(v) { var r = (16 * v + 128) * v + 64; if (v >= 2) { var na = Math.floor(v / 7) + 2; r -= (25 * na - 10) * na - 55; if (v >= 7) r -= 36; } return r; }
+  function dataCw(v) { return Math.floor(rawMods(v) / 8) - ECC[v] * NB[v]; }
+  var ver = 1;
+  for (; ver <= 40; ver++) { if (4 + (ver <= 9 ? 8 : 16) + bytes.length * 8 <= dataCw(ver) * 8) break; }
+  if (ver > 40) return null;
+  var bits = [];
+  function push(val, len) { for (var i = len - 1; i >= 0; i--) bits.push((val >>> i) & 1); }
+  push(4, 4); push(bytes.length, ver <= 9 ? 8 : 16); bytes.forEach(function (b) { push(b, 8); });
+  var cap = dataCw(ver) * 8;
+  push(0, Math.min(4, cap - bits.length));
+  push(0, (8 - bits.length % 8) % 8);
+  for (var pad = 0xEC; bits.length < cap; pad ^= 0xEC ^ 0x11) push(pad, 8);
+  var data = [];
+  for (var i = 0; i < bits.length; i += 8) { var by = 0; for (var j = 0; j < 8; j++) by = (by << 1) | bits[i + j]; data.push(by); }
+  function mul(x, y) { var z = 0; for (var i = 7; i >= 0; i--) { z = (z << 1) ^ ((z >>> 7) * 0x11D); z ^= ((y >>> i) & 1) * x; } return z; }
+  var deg = ECC[ver], div = [];
+  for (var k = 0; k < deg - 1; k++) div.push(0);
+  div.push(1);
+  var root = 1;
+  for (var k2 = 0; k2 < deg; k2++) { for (var j2 = 0; j2 < div.length; j2++) { div[j2] = mul(div[j2], root); if (j2 + 1 < div.length) div[j2] ^= div[j2 + 1]; } root = mul(root, 2); }
+  function rsRem(d) { var r = div.map(function () { return 0; }); d.forEach(function (b) { var f = b ^ r.shift(); r.push(0); div.forEach(function (c, i) { r[i] ^= mul(c, f); }); }); return r; }
+  var nb = NB[ver], raw = Math.floor(rawMods(ver) / 8), nShort = nb - raw % nb, shortLen = Math.floor(raw / nb);
+  var blocks = [];
+  for (var bi = 0, off = 0; bi < nb; bi++) {
+    var dl = shortLen - deg + (bi < nShort ? 0 : 1);
+    var dat = data.slice(off, off + dl); off += dl;
+    var ecc = rsRem(dat);
+    if (bi < nShort) dat.push(0);
+    blocks.push(dat.concat(ecc));
+  }
+  var cw = [];
+  for (var ci = 0; ci < blocks[0].length; ci++) for (var cj = 0; cj < blocks.length; cj++) if (ci !== shortLen - deg || cj >= nShort) cw.push(blocks[cj][ci]);
+  var n = ver * 4 + 17, M = [], F = [];
+  for (var y = 0; y < n; y++) { M.push(new Array(n).fill(false)); F.push(new Array(n).fill(false)); }
+  function set(x, y, d) { M[y][x] = d; F[y][x] = true; }
+  for (var t = 0; t < n; t++) { set(6, t, t % 2 === 0); set(t, 6, t % 2 === 0); }
+  function finder(cx, cy) { for (var dy = -4; dy <= 4; dy++) for (var dx = -4; dx <= 4; dx++) { var dd = Math.max(Math.abs(dx), Math.abs(dy)), xx = cx + dx, yy = cy + dy; if (xx >= 0 && xx < n && yy >= 0 && yy < n) set(xx, yy, dd !== 2 && dd !== 4); } }
+  finder(3, 3); finder(n - 4, 3); finder(3, n - 4);
+  var al = [];
+  if (ver > 1) { var na = Math.floor(ver / 7) + 2; var step = ver === 32 ? 26 : Math.ceil((ver * 4 + 4) / (na * 2 - 2)) * 2; al = [6]; for (var p = n - 7; al.length < na; p -= step) al.splice(1, 0, p); }
+  al.forEach(function (a, ai) { al.forEach(function (b, aj) {
+    if ((ai === 0 && aj === 0) || (ai === 0 && aj === al.length - 1) || (ai === al.length - 1 && aj === 0)) return;
+    for (var dy = -2; dy <= 2; dy++) for (var dx = -2; dx <= 2; dx++) set(a + dx, b + dy, Math.max(Math.abs(dx), Math.abs(dy)) !== 1);
+  }); });
+  function fmt(mask) {
+    var d = (0 << 3) | mask, r = d;
+    for (var i = 0; i < 10; i++) r = (r << 1) ^ ((r >>> 9) * 0x537);
+    var fb = ((d << 10) | r) ^ 0x5412;
+    function g(i) { return ((fb >>> i) & 1) === 1; }
+    for (var i1 = 0; i1 <= 5; i1++) set(8, i1, g(i1));
+    set(8, 7, g(6)); set(8, 8, g(7)); set(7, 8, g(8));
+    for (var i2 = 9; i2 < 15; i2++) set(14 - i2, 8, g(i2));
+    for (var i3 = 0; i3 < 8; i3++) set(n - 1 - i3, 8, g(i3));
+    for (var i4 = 8; i4 < 15; i4++) set(8, n - 15 + i4, g(i4));
+    set(8, n - 8, true);
+  }
+  fmt(0);
+  if (ver >= 7) {
+    var vr = ver;
+    for (var vi = 0; vi < 12; vi++) vr = (vr << 1) ^ ((vr >>> 11) * 0x1F25);
+    var vb = (ver << 12) | vr;
+    for (var v2 = 0; v2 < 18; v2++) { var bt = ((vb >>> v2) & 1) === 1, aa = n - 11 + v2 % 3, bb = Math.floor(v2 / 3); set(aa, bb, bt); set(bb, aa, bt); }
+  }
+  var bitI = 0;
+  for (var right = n - 1; right >= 1; right -= 2) {
+    if (right === 6) right = 5;
+    for (var vert = 0; vert < n; vert++) for (var jj = 0; jj < 2; jj++) {
+      var x = right - jj, up = ((right + 1) & 2) === 0, yv = up ? n - 1 - vert : vert;
+      if (!F[yv][x] && bitI < cw.length * 8) { M[yv][x] = ((cw[bitI >>> 3] >>> (7 - (bitI & 7))) & 1) === 1; bitI++; }
+    }
+  }
+  for (var my = 0; my < n; my++) for (var mx = 0; mx < n; mx++) if (!F[my][mx] && (mx + my) % 2 === 0) M[my][mx] = !M[my][mx];
+  fmt(0);
+  return M;
+}
+var _qrCache = {};
+function qrPath(text) {
+  if (_qrCache[text]) return _qrCache[text];
+  var M = qrMatrix(text); if (!M) return '';
+  var n = M.length, q = 4, N = n + 2 * q, k = 100 / N, d = '';
+  for (var y = 0; y < n; y++) {
+    var x = 0;
+    while (x < n) {
+      if (M[y][x]) { var x2 = x; while (x2 < n && M[y][x2]) x2++; d += 'M' + ((x + q) * k).toFixed(3) + ' ' + ((y + q) * k).toFixed(3) + 'h' + ((x2 - x) * k).toFixed(3) + 'v' + (k + 0.02).toFixed(3) + 'h-' + ((x2 - x) * k).toFixed(3) + 'z'; x = x2; }
+      else x++;
+    }
+  }
+  _qrCache[text] = d; return d;
+}
+function crc16(s) { var c = 0xFFFF; for (var i = 0; i < s.length; i++) { c ^= s.charCodeAt(i) << 8; for (var j = 0; j < 8; j++) c = (c & 0x8000) ? ((c << 1) ^ 0x1021) : (c << 1); c &= 0xFFFF; } return c.toString(16).toUpperCase().padStart(4, '0'); }
+function tlv(id, v) { return id + String(v.length).padStart(2, '0') + v; }
+function vietqr(bin, acc, amount, note) {
+  var cons = tlv('00', 'A000000727') + tlv('01', tlv('00', bin) + tlv('01', acc)) + tlv('02', 'QRIBFTTA');
+  var s = tlv('00', '01') + tlv('01', amount ? '12' : '11') + tlv('38', cons) + tlv('53', '704') + (amount ? tlv('54', String(amount)) : '') + tlv('58', 'VN') + (note ? tlv('62', tlv('08', note)) : '') + '6304';
+  return s + crc16(s);
+}
+
+class Component extends DCLogic {
+  seed() {
+    var members = [
+      { id: 'm1', name: 'Tuấn', color: AV[0] }, { id: 'm2', name: 'Linh', color: AV[1] }, { id: 'm3', name: 'Minh', color: AV[2] },
+      { id: 'm4', name: 'Hà', color: AV[3] }, { id: 'm5', name: 'Khoa', color: AV[4] }
+    ];
+    var all = members.map(function (m) { return m.id; });
+    return {
+      step: null, darkT: null,
+      party: { name: 'Cuối tuần Vũng Tàu', date: '2026-09-26', icon: 'beach', color: '#3c66ff' },
+      members: members,
+      bills: [
+        { id: 'b1', name: 'Lẩu hải sản', amount: 1850000, payer: 'm3', parts: all.slice(), split: 'equal', custom: {}, sponsorOn: true, sponsors: ['m1'], sponsorType: 'full', sponsorAmount: 0, note: 'Tối thứ Bảy, quán ven biển', photo: null },
+        { id: 'b2', name: 'Karaoke', amount: 1200000, payer: 'm4', parts: all.slice(), split: 'equal', custom: {}, sponsorOn: true, sponsors: ['m1'], sponsorType: 'fixed', sponsorAmount: 500000, note: '', photo: null },
+        { id: 'b3', name: 'Taxi về khách sạn', amount: 350000, payer: 'm5', parts: ['m2', 'm4', 'm5'], split: 'equal', custom: {}, sponsorOn: false, sponsors: [], sponsorType: 'full', sponsorAmount: 0, note: 'Chỉ 3 người về sớm', photo: null }
+      ],
+      bank: {
+        m3: { mode: 'upload', bin: '970436', acc: '0123456789', holder: 'NGUYEN VAN MINH', qr: null },
+        m4: { mode: 'upload', bin: '970407', acc: '1903123456789', holder: 'TRAN THU HA', qr: null }
+      },
+      organiser: 'm3', settleMode: 'hub', paid: {}, editor: null, newName: '', editId: null, editName: '', confirm: null, toast: null,
+      openP: {}, openB: {}, swipe: null, openSwipe: null, viewer: false, me: null
+    };
+  }
+  S() { if (!this._seed) this._seed = this.seed(); return Object.assign({}, this._seed, this.state || {}); }
+  curStep() { var s = this.S(); return s.step == null ? Math.max(0, Math.min(5, (this.props.startStep | 0))) : s.step; }
+  go(n) { this.setState({ step: n }); var el = this._main; setTimeout(function () { if (el) el.scrollTop = 0; }, 0); }
+  toast(t, undo) {
+    var self = this; this._undo = undo || null;
+    this.setState({ toast: { t: t, k: Date.now(), undo: !!undo } });
+    clearTimeout(this._tt); this._tt = setTimeout(function () { self._undo = null; self.setState({ toast: null }); }, undo ? 4000 : 2400);
+  }
+  copy(text, msg) {
+    var self = this;
+    try { navigator.clipboard.writeText(text).then(function () { self.toast(msg || 'Đã sao chép'); }, function () { self.toast('Không sao chép được, hãy chép tay: ' + text); }); }
+    catch (e) { self.toast('Không sao chép được, hãy chép tay: ' + text); }
+  }
+  share(where) {
+    var s = this.S(), self = this;
+    var data = { title: s.party.name, text: 'Xem số tiền cần trả cho “' + s.party.name + '”', url: PUB };
+    if (navigator.share) { navigator.share(data).catch(function () {}); }
+    else self.copy(PUB, 'Đã sao chép link, dán vào ' + where + ' nhé');
+  }
+  readImage(file, cb) {
+    var self = this;
+    if (!file) return;
+    if (!/^image\//.test(file.type)) { this.toast('Chỉ nhận file ảnh'); return; }
+    var r = new FileReader();
+    r.onload = function () {
+      var img = new Image();
+      img.onload = function () {
+        var max = 1200, w = img.width, h = img.height, k = Math.min(1, max / Math.max(w, h));
+        w = Math.round(w * k); h = Math.round(h * k);
+        var c = document.createElement('canvas'); c.width = w; c.height = h;
+        var x = c.getContext('2d'); x.fillStyle = '#ffffff'; x.fillRect(0, 0, w, h); x.drawImage(img, 0, 0, w, h);
+        var q = 0.88, url = c.toDataURL('image/jpeg', q);
+        while (url.length * 0.75 > 2 * 1024 * 1024 && q > 0.3) { q -= 0.15; url = c.toDataURL('image/jpeg', q); }
+        cb(url, Math.round(url.length * 0.75 / 1024));
+      };
+      img.onerror = function () { self.toast('Không đọc được ảnh này'); };
+      img.src = r.result;
+    };
+    r.readAsDataURL(file);
+  }
+  addNames(raw) {
+    var s = this.S();
+    var names = String(raw || '').split(/[,\n;]+/).map(function (x) { return x.trim(); }).filter(Boolean);
+    if (!names.length) return;
+    var exist = {}; s.members.forEach(function (m) { exist[m.name.toLowerCase()] = 1; });
+    var add = [];
+    names.forEach(function (n) { if (exist[n.toLowerCase()]) return; exist[n.toLowerCase()] = 1; add.push({ id: uid('m'), name: n.slice(0, 30), color: AV[(s.members.length + add.length) % AV.length] }); });
+    this.setState({ members: s.members.concat(add), newName: '' });
+    this.toast(add.length > 1 ? 'Đã thêm ' + add.length + ' người' : add.length ? 'Đã thêm ' + add[0].name : 'Tên này đã có trong danh sách rồi');
+  }
+  usage(id) {
+    return this.S().bills.filter(function (b) { return b.parts.indexOf(id) >= 0 || b.payer === id || (b.sponsorOn && b.sponsors.indexOf(id) >= 0); });
+  }
+  askRemove(id) { if (this.usage(id).length) this.setState({ confirm: { id: id } }); else this.doRemove(id); }
+  doRemove(id) {
+    var s = this.S(); var m = s.members.find(function (x) { return x.id === id; });
+    var members = s.members.filter(function (x) { return x.id !== id; });
+    var bills = s.bills.map(function (b) {
+      var parts = b.parts.filter(function (x) { return x !== id; }), sponsors = b.sponsors.filter(function (x) { return x !== id; });
+      var custom = Object.assign({}, b.custom); delete custom[id];
+      var payer = b.payer === id ? (parts[0] || (members[0] && members[0].id) || null) : b.payer;
+      return Object.assign({}, b, { parts: parts, sponsors: sponsors, custom: custom, payer: payer, sponsorOn: b.sponsorOn && sponsors.length > 0 });
+    });
+    var bank = Object.assign({}, s.bank); delete bank[id];
+    this.setState({ members: members, bills: bills, bank: bank, confirm: null, me: s.me === id ? null : s.me, organiser: s.organiser === id ? (members[0] ? members[0].id : null) : s.organiser });
+    this.toast('Đã xóa ' + (m ? m.name : ''));
+  }
+  newBill() {
+    var s = this.S();
+    return { id: uid('b'), name: '', amount: 0, payer: s.members[0] ? s.members[0].id : null, parts: s.members.map(function (m) { return m.id; }), split: 'equal', custom: {}, sponsorOn: false, sponsors: [], sponsorType: 'full', sponsorAmount: 0, note: '', photo: null };
+  }
+  ed(fn) { var e = this.S().editor; var d = JSON.parse(JSON.stringify(e.d)); fn(d); this.setState({ editor: Object.assign({}, e, { d: d }) }); }
+  prefill(d, mode) {
+    var s = this.S(); var ids = s.members.map(function (m) { return m.id; });
+    var c = calcBill(Object.assign({}, d, { split: 'equal' }), ids);
+    d.custom = {};
+    if (mode === 'amount') c.parts.forEach(function (id) { d.custom[id] = c.sh[id] || 0; });
+    if (mode === 'percent' && c.parts.length) { var base = Math.floor(100 / c.parts.length); c.parts.forEach(function (id, i) { d.custom[id] = base + (i === 0 ? 100 - base * c.parts.length : 0); }); }
+  }
+  saveBill() {
+    var s = this.S(), e = s.editor, d = JSON.parse(JSON.stringify(e.d));
+    if (!d.name.trim()) d.name = 'Hóa đơn ' + (s.bills.length + (e.isNew ? 1 : 0));
+    var c = calcBill(d, s.members.map(function (m) { return m.id; }));
+    if (!c.ok) { this.setState({ editor: Object.assign({}, e, { tried: true }) }); return; }
+    if (!d.sponsorOn) d.sponsors = [];
+    var bills = e.isNew ? s.bills.concat([d]) : s.bills.map(function (b) { return b.id === d.id ? d : b; });
+    this.setState({ bills: bills, editor: null });
+    this.toast(e.isNew ? 'Đã thêm “' + d.name + '”' : 'Đã lưu thay đổi');
+  }
+  delBill(id) {
+    var s = this.S(), self = this, prev = s.bills;
+    var b = prev.find(function (x) { return x.id === id; });
+    this.setState({ bills: prev.filter(function (x) { return x.id !== id; }), openSwipe: null, swipe: null });
+    this.toast('Đã xóa “' + (b ? b.name : '') + '”', function () { self.setState({ bills: prev }); });
+  }
+  updBank(id, patch) {
+    var s = this.S(); var bank = Object.assign({}, s.bank);
+    bank[id] = Object.assign({ mode: 'upload', bin: '', acc: '', holder: '', qr: null }, bank[id] || {}, patch);
+    this.setState({ bank: bank });
+  }
+  togglePaid(key, total) {
+    var s = this.S(); var paid = Object.assign({}, s.paid); paid[key] = !paid[key];
+    this.setState({ paid: paid });
+    var done = total.every(function (k) { return paid[k]; });
+    this.toast(done ? 'Tất cả đã thanh toán xong!' : paid[key] ? 'Đã đánh dấu đã trả' : 'Đã bỏ đánh dấu');
+  }
+  swipeFns(id) {
+    var self = this;
+    return {
+      pd: function (e) { var s = self.S(); self._sw = { id: id, x0: e.clientX, y0: e.clientY, moved: false, base: s.openSwipe === id ? -96 : 0 }; },
+      pm: function (e) {
+        var w = self._sw; if (!w || w.id !== id) return;
+        var dx = e.clientX - w.x0, dy = e.clientY - w.y0;
+        if (!w.moved && Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) { w.moved = true; try { e.currentTarget.setPointerCapture(e.pointerId); } catch (er) {} }
+        if (w.moved) self.setState({ swipe: { id: id, dx: Math.max(-130, Math.min(0, w.base + dx)) } });
+      },
+      pu: function () {
+        var w = self._sw; self._sw = null; if (!w || w.id !== id || !w.moved) return;
+        var cur = (self.S().swipe || {}).dx || 0;
+        self._justSwiped = true; setTimeout(function () { self._justSwiped = false; }, 60);
+        self.setState({ swipe: null, openSwipe: cur < -50 ? id : null });
+      }
+    };
+  }
+
+  renderVals() {
+    var self = this, s = this.S();
+    var step = this.curStep();
+    var dark = s.darkT == null ? !!this.props.dark : s.darkT;
+    var ids = s.members.map(function (m) { return m.id; });
+    var mm = {}; s.members.forEach(function (m) { mm[m.id] = { id: m.id, name: m.name, color: m.color, ini: ini(m.name) }; });
+    var nameOf = function (id) { return mm[id] ? mm[id].name : '?'; };
+    var calcs = {}; s.bills.forEach(function (b) { calcs[b.id] = calcBill(b, ids); });
+    var owed = {}, paidUp = {}, net = {};
+    ids.forEach(function (id) { owed[id] = 0; paidUp[id] = 0; });
+    s.bills.forEach(function (b) { var c = calcs[b.id]; Object.keys(c.total).forEach(function (id) { owed[id] += c.total[id]; }); if (mm[b.payer]) paidUp[b.payer] += b.amount; });
+    ids.forEach(function (id) { net[id] = paidUp[id] - owed[id]; });
+    var grand = s.bills.reduce(function (a, b) { return a + (b.amount || 0); }, 0);
+    var org = mm[s.organiser] ? s.organiser : (ids[0] || null);
+    var hub = s.settleMode !== 'min' && !!org;
+    var rawTx = hub ? settleHub(s.members, net, org) : settle(s.members, net);
+    var desk = this.props.desktop == null ? DESKTOP_DEFAULT : !!this.props.desktop;
+    var txKeys = rawTx.map(function (t) { return t.from + '>' + t.to; });
+    var spText = function (b, c) {
+      var names = joinNames(c.sps.map(nameOf));
+      return b.sponsorType === 'full' ? names + ' bao' : names + ' tài trợ ' + vnd(c.spTotal);
+    };
+    var bankInfo = function (id) { return s.bank[id] || { mode: 'upload', bin: '', acc: '', holder: '', qr: null }; };
+    var noteFor = function (from, to) { return ascii(nameOf(from) + ' tra ' + nameOf(to)).slice(0, 25); };
+    var txs = rawTx.map(function (t, i) {
+      var key = t.from + '>' + t.to, paid = !!s.paid[key];
+      var inv = s.me && (t.from === s.me || t.to === s.me);
+      return {
+        key: key, bt: i ? '1px solid var(--line)' : '0', amt: vnd(t.amt), paid: paid,
+        fromName: nameOf(t.from), toName: nameOf(t.to), fromColor: mm[t.from].color, toColor: mm[t.to].color, fromIni: mm[t.from].ini, toIni: mm[t.to].ini,
+        stCls: paid ? 'b-pos' : 'b-neg', stText: paid ? 'Đã trả' : 'Chưa trả',
+        badgeCls: paid ? 'b-pos' : 'b-neu', badgeText: paid ? 'Đã trả' : 'Chưa trả',
+        meBg: inv ? 'var(--sel)' : 'transparent',
+        toggle: function () { self.togglePaid(key, txKeys); }
+      };
+    });
+    var paidCount = txs.filter(function (t) { return t.paid; }).length;
+    var allPaid = txs.length > 0 && paidCount === txs.length;
+
+    var cover = COVERS.find(function (c) { return c.k === s.party.icon; }) || COVERS[0];
+    var partyName = s.party.name.trim();
+    var partyErr = !!s.triedParty && !partyName;
+
+    var steps = STEPS.map(function (label, i) {
+      return { label: label, n: i < step ? '✓' : String(i + 1), title: TITLES[i], dcls: i === step ? 'on' : i < step ? 'done' : '', aria: 'Bước ' + (i + 1) + ': ' + TITLES[i], cur: i === step ? 'step' : undefined,
+        bar: i <= step ? 'var(--accent)' : 'var(--line)', fg: i === step ? 'var(--text)' : 'var(--text3)',
+        go: function () { if (i > 0 && !self.S().party.name.trim()) { self.setState({ triedParty: true }); self.go(0); return; } self.go(i); } };
+    });
+
+    var mems = s.members.map(function (m, i) {
+      var used = s.bills.filter(function (b) { return b.parts.indexOf(m.id) >= 0; }).length;
+      var editing = s.editId === m.id;
+      var saveEdit = function () { var v = self.S().editName.trim(); if (!v) { self.setState({ editId: null }); return; } self.setState({ members: self.S().members.map(function (x) { return x.id === m.id ? Object.assign({}, x, { name: v }) : x; }), editId: null }); self.toast('Đã đổi tên'); };
+      return {
+        id: m.id, name: m.name, color: m.color, ini: ini(m.name), bt: i ? '1px solid var(--line)' : '0',
+        sub: (m.id === org ? 'Người tổ chức · ' : '') + (used ? 'Có trong ' + used + ' hóa đơn' : 'Chưa có trong hóa đơn nào'),
+        isOrg: m.id === org, starFill: m.id === org ? 'currentColor' : 'none', starColor: m.id === org ? 'var(--warn)' : 'var(--text3)',
+        orgAria: m.id === org ? m.name + ' là người tổ chức' : 'Đặt ' + m.name + ' làm người tổ chức',
+        makeOrg: function () { if (self.S().organiser === m.id) return; self.setState({ organiser: m.id }); self.toast(m.name + ' là người tổ chức'); },
+        editing: editing, notEditing: !editing,
+        cycle: function () { var idx = AV.indexOf(m.color); self.setState({ members: self.S().members.map(function (x) { return x.id === m.id ? Object.assign({}, x, { color: AV[(idx + 1) % AV.length] }) : x; }) }); },
+        startEdit: function () { self.setState({ editId: m.id, editName: m.name }); },
+        saveEdit: saveEdit,
+        editKey: function (e) { if (e.key === 'Enter') { e.preventDefault(); saveEdit(); } if (e.key === 'Escape') self.setState({ editId: null }); },
+        remove: function () { self.askRemove(m.id); }
+      };
+    });
+
+    var billCards = s.bills.map(function (b) {
+      var c = calcs[b.id], sw = self.swipeFns(b.id);
+      var dragging = s.swipe && s.swipe.id === b.id;
+      var dx = dragging ? s.swipe.dx : (s.openSwipe === b.id ? -96 : 0);
+      return {
+        id: b.id, name: b.name, amount: vnd(b.amount), sub: nameOf(b.payer) + ' trả · ' + c.parts.length + ' người tham gia',
+        aria: 'Sửa hóa đơn ' + b.name + ', ' + vnd(b.amount),
+        avs: c.parts.map(function (id) { return mm[id]; }), hasSp: c.sps.length > 0, spText: c.sps.length ? spText(b, c) : '',
+        hasNote: !!b.note, note: b.note, hasPhoto: !!b.photo,
+        dx: dx, anim: dragging ? '' : 'sw-t', pd: sw.pd, pm: sw.pm, pu: sw.pu,
+        open: function () { if (self._justSwiped) return; if (self.S().openSwipe === b.id) { self.setState({ openSwipe: null }); return; } self.setState({ openSwipe: null, editor: { isNew: false, d: JSON.parse(JSON.stringify(b)), tried: false } }); },
+        del: function () { self.delBill(b.id); }
+      };
+    });
+
+    var persons = s.members.map(function (m, i) {
+      var rows = [];
+      s.bills.forEach(function (b) { var c = calcs[b.id]; if (c.total[m.id] != null) rows.push({ name: b.name, amt: vnd(c.total[m.id]), isSp: (c.sp[m.id] || 0) > 0, spLabel: b.sponsorType === 'full' ? 'bao trọn' : 'tài trợ ' + vnd(c.sp[m.id] || 0) }); });
+      var n = net[m.id], open = !!s.openP[m.id];
+      return {
+        name: m.name, color: m.color, ini: ini(m.name), bt: i ? '1px solid var(--line)' : '0',
+        sub: 'Tham gia ' + rows.length + ' hóa đơn · chịu ' + vnd(owed[m.id]),
+        badge: n > 0 ? 'Nhận ' + vnd(n) : n < 0 ? 'Trả ' + vnd(-n) : 'Cân bằng', badgeCls: n > 0 ? 'b-pos' : n < 0 ? 'b-neg' : 'b-neu',
+        open: open, rot: open ? 180 : 0, rows: rows, owed: vnd(owed[m.id]), paidUp: vnd(paidUp[m.id]),
+        toggle: function () { var o = Object.assign({}, self.S().openP); o[m.id] = !o[m.id]; self.setState({ openP: o }); }
+      };
+    });
+
+    var billSum = s.bills.map(function (b) {
+      var c = calcs[b.id], open = !!s.openB[b.id];
+      return {
+        name: b.name, amount: vnd(b.amount), sub: nameOf(b.payer) + ' trả trước · ' + c.parts.length + ' người', open: open, rot: open ? 180 : 0,
+        hasSp: c.sps.length > 0, spText: c.sps.length ? spText(b, c) : '',
+        rows: Object.keys(c.total).map(function (id) { return { name: nameOf(id), color: mm[id].color, ini: mm[id].ini, amt: vnd(c.total[id]) }; }),
+        toggle: function () { var o = Object.assign({}, self.S().openB); o[b.id] = !o[b.id]; self.setState({ openB: o }); }
+      };
+    });
+
+    var recvIds = [];
+    rawTx.forEach(function (t) { if (recvIds.indexOf(t.to) < 0) recvIds.push(t.to); });
+    if (hub && recvIds.indexOf(org) > 0) { recvIds.splice(recvIds.indexOf(org), 1); recvIds.unshift(org); }
+    var recv = recvIds.map(function (id) {
+      var bk = bankInfo(id), incoming = rawTx.filter(function (t) { return t.to === id; });
+      var hasAuto = !!bk.bin && String(bk.acc || '').length >= 6;
+      var first = incoming[0];
+      var qr = hasAuto && first ? qrPath(vietqr(bk.bin, bk.acc, first.amt, noteFor(first.from, id))) : '';
+      var isUp = bk.mode !== 'auto';
+      return {
+        id: id, name: nameOf(id), color: mm[id].color, ini: mm[id].ini, isOrg: hub && id === org,
+        amt: vnd(incoming.reduce(function (a, t) { return a + t.amt; }, 0)),
+        fromNames: joinNames(incoming.map(function (t) { return nameOf(t.from); })),
+        isUp: isUp, isAuto: !isUp, upCls: isUp ? 'on' : '', autoCls: isUp ? '' : 'on',
+        setUp: function () { self.updBank(id, { mode: 'upload' }); }, setAuto: function () { self.updBank(id, { mode: 'auto' }); },
+        hasImg: !!bk.qr, noImg: !bk.qr, img: bk.qr || '',
+        upload: function (e) { var f = e.target.files && e.target.files[0]; e.target.value = ''; self.readImage(f, function (url, kb) { self.updBank(id, { qr: url }); self.toast('Đã lưu mã QR (' + kb + 'KB)'); }); },
+        clearImg: function () { self.updBank(id, { qr: null }); },
+        hasAuto: hasAuto && !!qr, noAuto: !(hasAuto && qr), qr: qr,
+        autoSample: first ? nameOf(first.from) + ' chuyển ' + vnd(first.amt) + ', nội dung “' + noteFor(first.from, id) + '”.' : '',
+        bin: bk.bin || '', acc: bk.acc || '', holder: bk.holder || '',
+        onBin: function (e) { self.updBank(id, { bin: e.target.value }); },
+        onAcc: function (e) { self.updBank(id, { acc: e.target.value.replace(/[^0-9]/g, '').slice(0, 19) }); },
+        onHolder: function (e) { self.updBank(id, { holder: ascii(e.target.value).toUpperCase().slice(0, 40) }); },
+        copyAcc: function () { var a = bankInfo(id).acc; if (!a) { self.toast('Chưa có số tài khoản'); return; } self.copy(a, 'Đã sao chép số tài khoản'); }
+      };
+    });
+    var nonRecv = s.members.filter(function (m) { return recvIds.indexOf(m.id) < 0; }).map(function (m) { return m.name; });
+
+    var isBill = step === 2, hasBills = s.bills.length > 0;
+    var nextDisabled = (step === 1 && s.members.length < 2) || (step === 2 && !hasBills);
+    var barHintText = step === 1 && s.members.length < 2 ? 'Cần ít nhất 2 người để chia bill' : '';
+
+    // ---- editor ----
+    var ed = {};
+    if (s.editor) {
+      var d = s.editor.d, c = calcBill(d, ids), tried = s.editor.tried;
+      var allOn = d.parts.length === ids.length;
+      var isCustom = d.split !== 'equal';
+      var remText = '', remCls = 'b-neu';
+      if (isCustom) {
+        if (d.split === 'amount') { if (c.rem <= 0) remText = 'Không còn gì để chia'; else if (c.remaining === 0) { remText = 'Đã khớp ' + vnd(c.rem); remCls = 'b-pos'; } else if (c.remaining > 0) { remText = 'Còn ' + vnd(c.remaining) + ' chưa chia'; remCls = 'b-neg'; } else { remText = 'Vượt ' + vnd(-c.remaining); remCls = 'b-neg'; } }
+        else { if (c.remaining === 0) { remText = 'Đã đủ 100%'; remCls = 'b-pos'; } else if (c.remaining > 0) { remText = 'Còn ' + c.remaining + '% chưa chia'; remCls = 'b-neg'; } else { remText = 'Vượt ' + (-c.remaining) + '%'; remCls = 'b-neg'; } }
+      }
+      var spNames = joinNames(c.sps.map(nameOf));
+      var spPreview = '';
+      if (d.sponsorOn && c.sps.length && d.amount > 0) {
+        spPreview = d.sponsorType === 'full' ? spNames + ' bao trọn ' + vnd(d.amount) + '. Những người khác không phải trả.' : (c.spTotal > 0 ? spNames + ' tài trợ ' + vnd(c.spTotal) + ', còn ' + vnd(c.rem) + ' chia cho ' + c.parts.length + ' người.' : '');
+      }
+      var prevIds = ids.filter(function (id) { return c.total[id] != null; });
+      ed = {
+        title: s.editor.isNew ? 'Thêm hóa đơn' : 'Sửa hóa đơn', saveLabel: s.editor.isNew ? 'Lưu hóa đơn' : 'Lưu thay đổi',
+        name: d.name, onName: function (e) { var v = e.target.value; self.ed(function (x) { x.name = v; }); },
+        quick: QUICK.map(function (q) { return { label: q, cls: d.name === q ? 'on' : '', pick: function () { self.ed(function (x) { x.name = q; }); } }; }),
+        amtStr: d.amount ? num(d.amount) : '', amtErrCls: tried && !(d.amount > 0) ? 'err' : '',
+        onAmt: function (e) { var v = parseInt(e.target.value.replace(/\D/g, '').slice(0, 12) || '0', 10); self.ed(function (x) { x.amount = v; }); },
+        quickAmts: [50000, 100000, 200000, 500000].map(function (v) { return { label: '+' + num(v), add: function () { self.ed(function (x) { x.amount = (x.amount || 0) + v; }); } }; }),
+        payers: s.members.map(function (m) { var on = d.payer === m.id; return { name: m.name, color: m.color, ini: ini(m.name), on: on, cls: on ? 'on' : '', pick: function () { self.ed(function (x) { x.payer = m.id; }); } }; }),
+        parts: s.members.map(function (m) { var on = d.parts.indexOf(m.id) >= 0; return { name: m.name, color: m.color, ini: ini(m.name), on: on, cls: on ? 'on' : 'off', toggle: function () { self.ed(function (x) { if (on) { x.parts = x.parts.filter(function (p) { return p !== m.id; }); delete x.custom[m.id]; } else x.parts = ids.filter(function (p) { return p === m.id || x.parts.indexOf(p) >= 0; }); }); } }; }),
+        partCount: d.parts.length + '/' + ids.length, allLabel: allOn ? 'Bỏ chọn tất cả' : 'Chọn tất cả',
+        toggleAll: function () { self.ed(function (x) { x.parts = allOn ? [] : ids.slice(); if (allOn) x.custom = {}; }); },
+        partErr: (tried || d.parts.length === 0) && c.parts.length === 0,
+        splits: [{ k: 'equal', label: 'Chia đều' }, { k: 'amount', label: 'Theo số tiền' }, { k: 'percent', label: 'Theo %' }].map(function (t) { var on = d.split === t.k; return { label: t.label, on: on, cls: on ? 'on' : '', pick: function () { self.ed(function (x) { if (x.split !== t.k) { x.split = t.k; self.prefill(x, t.k); } }); } }; }),
+        isCustom: isCustom && c.parts.length > 0 && c.rem > 0,
+        hasEach: d.split === 'equal' && c.parts.length > 0 && c.rem > 0,
+        eachStr: c.parts.length ? 'Mỗi người khoảng ' + vnd(r1k(c.rem / c.parts.length)) + (c.spTotal ? ' (sau khi trừ tài trợ)' : '') + '. Tiền lẻ do làm tròn tính cho người trả.' : '',
+        customRows: c.parts.map(function (id) { var v = (d.custom || {})[id]; return { id: id, name: nameOf(id), color: mm[id].color, ini: mm[id].ini, suffix: d.split === 'percent' ? '%' : 'đ', val: v ? (d.split === 'percent' ? String(v) : num(v)) : '', onVal: function (e) { var raw = e.target.value.replace(/\D/g, ''); var n = parseInt(raw || '0', 10); if (d.split === 'percent') n = Math.min(100, n); self.ed(function (x) { x.custom[id] = n; }); } }; }),
+        remText: remText, remCls: remCls,
+        spOn: !!d.sponsorOn, spTrk: d.sponsorOn ? 'on' : '',
+        toggleSp: function () { self.ed(function (x) { x.sponsorOn = !x.sponsorOn; if (x.sponsorOn && !x.sponsors.length && ids[0]) x.sponsors = [ids[0]]; }); },
+        spChips: s.members.map(function (m) { var on = d.sponsors.indexOf(m.id) >= 0; return { name: m.name, color: m.color, ini: ini(m.name), on: on, cls: on ? 'on' : 'off', toggle: function () { self.ed(function (x) { x.sponsors = on ? x.sponsors.filter(function (p) { return p !== m.id; }) : ids.filter(function (p) { return p === m.id || x.sponsors.indexOf(p) >= 0; }); }); } }; }),
+        spTypes: [{ k: 'full', label: 'Bao trọn' }, { k: 'fixed', label: 'Tài trợ một phần' }].map(function (t) { var on = d.sponsorType === t.k; return { label: t.label, on: on, cls: on ? 'on' : '', pick: function () { self.ed(function (x) { x.sponsorType = t.k; }); } }; }),
+        isFixed: d.sponsorType === 'fixed', spAmtLabel: c.sps.length > 1 ? 'Mỗi người tài trợ' : 'Số tiền tài trợ',
+        spAmtStr: d.sponsorAmount ? num(d.sponsorAmount) : '',
+        onSpAmt: function (e) { var v = parseInt(e.target.value.replace(/\D/g, '').slice(0, 12) || '0', 10); self.ed(function (x) { x.sponsorAmount = v; }); },
+        hasSpPreview: !!spPreview, spPreview: spPreview,
+        note: d.note, onNote: function (e) { var v = e.target.value.slice(0, 200); self.ed(function (x) { x.note = v; }); },
+        hasPhoto: !!d.photo, noPhoto: !d.photo, photo: d.photo || '',
+        onPhoto: function (e) { var f = e.target.files && e.target.files[0]; e.target.value = ''; self.readImage(f, function (url, kb) { self.ed(function (x) { x.photo = url; }); self.toast('Đã đính kèm ảnh (' + kb + 'KB)'); }); },
+        clearPhoto: function () { self.ed(function (x) { x.photo = null; }); },
+        hasPreview: d.amount > 0 && prevIds.length > 0,
+        preview: prevIds.map(function (id) { var spv = c.sp[id] || 0; return { name: nameOf(id), color: mm[id].color, ini: mm[id].ini, amt: vnd(c.total[id]), hasTag: spv > 0, tag: d.sponsorType === 'full' ? 'bao trọn' : 'tài trợ ' + vnd(spv) }; }),
+        showErr: tried && c.errs.length > 0, errs: c.errs.map(function (t) { return { t: t }; }),
+        save: function () { self.saveBill(); }, close: function () { self.setState({ editor: null }); }
+      };
+    }
+
+    // ---- confirm ----
+    var cf = {};
+    if (s.confirm) {
+      var cid = s.confirm.id, used = this.usage(cid);
+      var asPayer = used.filter(function (b) { return b.payer === cid; }).length;
+      cf = {
+        name: nameOf(cid),
+        desc: nameOf(cid) + ' đang có trong ' + used.length + ' hóa đơn (' + used.map(function (b) { return b.name; }).join(', ') + ')' + (asPayer ? ' và là người trả của ' + asPayer + ' hóa đơn' : '') + '. Xóa sẽ bỏ ' + nameOf(cid) + ' khỏi các hóa đơn này và tính lại tiền.',
+        cancel: function () { self.setState({ confirm: null }); }, ok: function () { self.doRemove(cid); }
+      };
+    }
+
+    // ---- viewer ----
+    var me = {};
+    if (s.me && mm[s.me]) {
+      var mid = s.me, n = net[mid];
+      var outs = rawTx.filter(function (t) { return t.from === mid; }).map(function (t) {
+        var key = t.from + '>' + t.to, paid = !!s.paid[key], bk = bankInfo(t.to);
+        var autoOk = !!bk.bin && String(bk.acc || '').length >= 6;
+        var useImg = !!bk.qr && (bk.mode !== 'auto' || !autoOk);
+        var useAuto = !useImg && autoOk;
+        return {
+          toName: nameOf(t.to), toColor: mm[t.to].color, toIni: mm[t.to].ini, amt: vnd(t.amt), paid: paid,
+          hasImg: useImg, img: bk.qr || '', hasAuto: useAuto, qr: useAuto ? qrPath(vietqr(bk.bin, bk.acc, t.amt, noteFor(t.from, t.to))) : '',
+          noQr: !useImg && !useAuto, hasBank: !!bk.acc, bankName: BANKS[bk.bin] || 'Chưa chọn', acc: bk.acc || '', holder: bk.holder || '—', note: noteFor(t.from, t.to),
+          copyAcc: function () { self.copy(bk.acc, 'Đã sao chép số tài khoản của ' + nameOf(t.to)); },
+          paidBtnCls: paid ? 'btn-o' : 'btn-p', paidBtnText: paid ? 'Bỏ đánh dấu' : 'Tôi đã trả',
+          toggle: function () { self.togglePaid(key, txKeys); }
+        };
+      });
+      var ins = rawTx.filter(function (t) { return t.to === mid; }).map(function (t) { var paid = !!s.paid[t.from + '>' + t.to]; return { fromName: nameOf(t.from), fromColor: mm[t.from].color, fromIni: mm[t.from].ini, amt: vnd(t.amt), stCls: paid ? 'b-pos' : 'b-neu', stText: paid ? 'Đã nhận' : 'Chờ trả' }; });
+      var rowsMe = [];
+      s.bills.forEach(function (b) { var c = calcs[b.id]; if (c.total[mid] != null) rowsMe.push({ name: b.name, amt: vnd(c.total[mid]), isSp: (c.sp[mid] || 0) > 0, spLabel: b.sponsorType === 'full' ? 'bạn bao' : 'bạn tài trợ', bt: rowsMe.length ? '1px solid var(--line)' : '0' }); });
+      me = {
+        name: nameOf(mid),
+        headline: n < 0 ? 'Bạn cần trả ' + vnd(-n) : n > 0 ? 'Bạn sẽ nhận lại ' + vnd(n) : 'Bạn không nợ ai cả',
+        headSub: 'Phần của bạn ' + vnd(owed[mid]) + ' · đã ứng trước ' + vnd(paidUp[mid]),
+        outs: outs, ins: ins, rows: rowsMe, noRows: rowsMe.length === 0,
+        allOutPaid: outs.length > 0 && outs.every(function (o) { return o.paid; })
+      };
+    }
+    var meChips = s.members.map(function (m) { var on = s.me === m.id; return { name: m.name, color: m.color, ini: ini(m.name), on: on, cls: on ? 'on' : '', pick: function () { self.setState({ me: on ? null : m.id }); } }; });
+
+    return {
+      theme: dark ? 'dark' : '', dark: dark, light: !dark, themeLabel: dark ? 'Chuyển sang giao diện sáng' : 'Chuyển sang giao diện tối',
+      toggleDark: function () { self.setState({ darkT: !dark }); },
+      isOrg: !s.viewer, viewer: !!s.viewer,
+      mainRef: function (el) { self._main = el; },
+      canBack: step > 0, noBack: step === 0, back: function () { self.go(Math.max(0, step - 1)); },
+      stepLabel: 'Bước ' + (step + 1) + '/6', stepTitle: TITLES[step], steps: steps,
+      is0: step === 0, is1: step === 1, is2: step === 2, is3: step === 3, is4: step === 4, is5: step === 5,
+      party: s.party, coverPath: cover.path, partyNameShow: partyName || 'Buổi tiệc chưa có tên', partyDateShow: dateVi(s.party.date),
+      partyErr: partyErr, partyErrCls: partyErr ? 'err' : '',
+      onPartyName: function (e) { var v = e.target.value; self.setState({ party: Object.assign({}, self.S().party, { name: v }) }); },
+      onPartyDate: function (e) { var v = e.target.value; self.setState({ party: Object.assign({}, self.S().party, { date: v }) }); },
+      covers: COVERS.map(function (c) { var on = s.party.icon === c.k; return { label: c.label, path: c.path, on: on, cls: on ? 'on' : '', pick: function () { self.setState({ party: Object.assign({}, self.S().party, { icon: c.k }) }); } }; }),
+      colors: THEME.map(function (c) { var on = s.party.color === c.hex; return { hex: c.hex, label: c.label, on: on, cls: on ? 'on' : '', pick: function () { self.setState({ party: Object.assign({}, self.S().party, { color: c.hex }) }); } }; }),
+      newName: s.newName, onNewName: function (e) { self.setState({ newName: e.target.value }); },
+      onNewKey: function (e) { if (e.key === 'Enter') { e.preventDefault(); self.addNames(self.S().newName); } },
+      onPaste: function (e) { var t = (e.clipboardData || window.clipboardData).getData('text'); if (/[,\n;]/.test(t)) { e.preventDefault(); self.addNames(t); } },
+      addNew: function () { self.addNames(self.S().newName); },
+      editName: s.editName, onEditName: function (e) { self.setState({ editName: e.target.value }); },
+      memberCountLabel: s.members.length + ' thành viên', noMembers: s.members.length === 0, hasMembers: s.members.length > 0, mems: mems,
+      hasBills: hasBills, noBills: !hasBills, billCards: billCards, billCountLabel: s.bills.length + ' hóa đơn', grandTotal: vnd(grand),
+      summarySub: s.bills.length + ' hóa đơn · ' + s.members.length + ' người · trung bình ' + vnd(s.members.length ? r1k(grand / s.members.length) : 0) + '/người',
+      txs: txs, hasTx: txs.length > 0, noTx: txs.length === 0,
+      txSub: !txs.length ? 'Mọi người đã cân bằng.' : hub ? 'Mọi người chuyển cho ' + nameOf(org) + ', ' + nameOf(org) + ' trả lại cho người đã ứng trước.' : 'Gộp nợ để chỉ cần ' + txs.length + ' lần chuyển khoản.',
+      modes: [{ k: 'hub', label: 'Qua người tổ chức' }, { k: 'min', label: 'Ít lần chuyển nhất' }].map(function (t) { var on = (hub ? 'hub' : 'min') === t.k; return { label: t.label, on: on, cls: on ? 'on' : '', pick: function () { self.setState({ settleMode: t.k }); } }; }),
+      qrIntro: hub && org ? nameOf(org) + ' là người thu tiền, nên chỉ cần mã QR của ' + nameOf(org) + ' là mọi người quét và chuyển được ngay. Người được ' + nameOf(org) + ' trả lại có thể thêm QR của mình.' : 'Người nhận tiền thêm mã QR ngân hàng hoặc ví, để mọi người quét là chuyển được ngay.',
+      orgName: org ? nameOf(org) : 'Chưa chọn', orgColor: org ? mm[org].color : 'var(--line)', orgIni: org ? mm[org].ini : '?',
+      layoutCls: desk ? 'desk' + (s.viewer ? ' view' : '') : '', rootW: desk ? 1280 : 390, rootH: desk ? 800 : 844,
+      themeText: dark ? 'Giao diện sáng' : 'Giao diện tối',
+      persons: persons, billSum: billSum,
+      recv: recv, noRecv: recv.length === 0, hasNonRecv: nonRecv.length > 0 && recv.length > 0,
+      nonRecvText: joinNames(nonRecv) + ' không nhận tiền nên không cần thêm mã QR.',
+      linkQr: qrPath(PUB), pubShort: PUB.replace('https://', ''), editShort: EDIT.replace('https://', ''),
+      copyPub: function () { self.copy(PUB, 'Đã sao chép link'); }, copyEdit: function () { self.copy(EDIT, 'Đã sao chép link quản lý'); },
+      shareZalo: function () { self.share('Zalo'); }, shareMess: function () { self.share('Messenger'); }, shareMore: function () { self.share('ứng dụng bạn muốn'); },
+      payProgress: paidCount + '/' + txs.length + ' khoản đã trả', payBadgeCls: allPaid ? 'b-pos' : 'b-neu', payPct: txs.length ? Math.round(paidCount * 100 / txs.length) : 0,
+      allPaid: allPaid,
+      confetti: Array.from({ length: 16 }, function (_, i) { return { left: (i * 6.3 + 3) % 100, color: CONF_COLORS[i % CONF_COLORS.length], delay: ((i % 8) * 0.2).toFixed(1) }; }),
+      enterViewer: function () { self.setState({ viewer: true }); var el = self._main; setTimeout(function () { if (el) el.scrollTop = 0; }, 0); },
+      exitViewer: function () { self.setState({ viewer: false }); },
+      barHint: !!barHintText, barHintText: barHintText,
+      showAddBill: isBill, addBillCls: hasBills ? 'btn-o' : 'btn-p',
+      showNext: step < 5 && !(isBill && !hasBills),
+      nextDisabled: nextDisabled, nextLabel: step === 0 ? 'Tiếp tục' : step === 3 ? 'Thêm mã QR' : step === 4 ? 'Chia sẻ' : 'Tiếp tục',
+      next: function () {
+        var st = self.S();
+        if (step === 0 && !st.party.name.trim()) { self.setState({ triedParty: true }); return; }
+        if (nextDisabled) return;
+        self.go(step + 1);
+      },
+      openNew: function () { if (!self.S().members.length) { self.toast('Thêm thành viên trước nhé'); return; } self.setState({ editor: { isNew: true, d: self.newBill(), tried: false } }); },
+      hasEditor: !!s.editor, ed: ed,
+      hasConfirm: !!s.confirm, cf: cf,
+      hasToast: !!s.toast, toast: s.toast || { t: '' }, toastUndo: !!(s.toast && s.toast.undo), toastBottom: s.viewer ? 24 : (s.editor ? 96 : 100),
+      undo: function () { var u = self._undo; self._undo = null; self.setState({ toast: null }); if (u) u(); },
+      hasMe: !!(s.me && mm[s.me]), noMe: !(s.me && mm[s.me]), me: me, meChips: meChips
+    };
+  }
+}
+</script>
+</body>
+</html>

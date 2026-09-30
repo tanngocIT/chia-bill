@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Chia bill – Luồng màn hình</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#f1f2f4}
+a{color:#0b36d2}a:hover{color:#3c66ff}
+</style>
+</helmet>
+<div style="width: 1440px; height: 1120px; box-sizing: border-box; padding: 64px; background: #f1f2f4; color: #0c0d0e; font-family: 'Inter', system-ui, sans-serif; display: flex; flex-direction: column; gap: 40px">
+
+  <div style="display: flex; flex-direction: column; gap: 12px">
+    <div style="font-size: 14px; line-height: 22px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #5d656f">Chia bill nhóm · Luồng màn hình</div>
+    <h1 style="margin: 0; font-size: 40px; line-height: 48px; font-weight: 700; letter-spacing: -0.02em; color: #002a61">Từ lúc tạo buổi tiệc đến khi cả nhóm trả xong</h1>
+    <p style="margin: 0; font-size: 18px; line-height: 26px; color: #2e3238; max-width: 880px">Một người tổ chức đi qua 6 bước. Người khác chỉ cần mở link, chọn tên mình, quét QR và bấm “Đã trả”.</p>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 16px">
+    <div style="display: flex; align-items: center; gap: 12px">
+      <span style="padding: 4px 12px; border-radius: 100px; background: #002a61; color: #ffffff; font-size: 14px; font-weight: 600">Người tổ chức</span>
+      <span style="font-size: 14px; color: #5d656f">Link quản lý: /p/abc123/sua?k=…</span>
+    </div>
+    <div style="display: flex; align-items: stretch; gap: 8px">
+      <div style="flex: 1 1 0; min-width: 0; background: #ffffff; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 12px 24px -4px #5d656f1f, 0 0 2px 0 #5d656f1f">
+        <span style="width: 32px; height: 32px; border-radius: 100px; background: #3c66ff; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px">1</span>
+        <div style="font-size: 17px; font-weight: 700; line-height: 22px">Tạo buổi tiệc</div>
+        <div style="font-size: 14px; line-height: 21px; color: #2e3238">Tên, ngày, biểu tượng và màu chủ đề. Thẻ xem trước cập nhật ngay.</div>
+      </div>
+      <div style="width: 24px; display: flex; align-items: center; justify-content: center; color: #5d656f; flex-shrink: 0"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></div>
+      <div style="flex: 1 1 0; min-width: 0; background: #ffffff; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 12px 24px -4px #5d656f1f, 0 0 2px 0 #5d656f1f">
+        <span style="width: 32px; height: 32px; border-radius: 100px; background: #3c66ff; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px">2</span>
+        <div style="font-size: 17px; font-weight: 700; line-height: 22px">Thêm thành viên</div>
+        <div style="font-size: 14px; line-height: 21px; color: #2e3238">Gõ tên rồi Enter, hoặc dán cả danh sách. Chọn người tổ chức (người thu tiền), sửa tên, đổi màu, xóa có cảnh báo.</div>
+      </div>
+      <div style="width: 24px; display: flex; align-items: center; justify-content: center; color: #5d656f; flex-shrink: 0"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></div>
+      <div style="flex: 1 1 0; min-width: 0; background: #ffffff; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 12px 24px -4px #5d656f1f, 0 0 2px 0 #5d656f1f">
+        <span style="width: 32px; height: 32px; border-radius: 100px; background: #3c66ff; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px">3</span>
+        <div style="font-size: 17px; font-weight: 700; line-height: 22px">Thêm hóa đơn</div>
+        <div style="font-size: 14px; line-height: 21px; color: #2e3238">Danh sách thẻ hóa đơn, vuốt trái để xóa. Bảng thêm/sửa: số tiền, người trả, người tham gia, kiểu chia, tài trợ, ghi chú, ảnh.</div>
+      </div>
+      <div style="width: 24px; display: flex; align-items: center; justify-content: center; color: #5d656f; flex-shrink: 0"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></div>
+      <div style="flex: 1 1 0; min-width: 0; background: #ffffff; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 12px 24px -4px #5d656f1f, 0 0 2px 0 #5d656f1f">
+        <span style="width: 32px; height: 32px; border-radius: 100px; background: #3c66ff; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px">4</span>
+        <div style="font-size: 17px; font-weight: 700; line-height: 22px">Tổng kết</div>
+        <div style="font-size: 14px; line-height: 21px; color: #2e3238">Tổng chi, “ai trả cho ai” (mặc định: mọi người chuyển cho người tổ chức), chi tiết từng người và từng hóa đơn.</div>
+      </div>
+      <div style="width: 24px; display: flex; align-items: center; justify-content: center; color: #5d656f; flex-shrink: 0"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></div>
+      <div style="flex: 1 1 0; min-width: 0; background: #ffffff; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 12px 24px -4px #5d656f1f, 0 0 2px 0 #5d656f1f">
+        <span style="width: 32px; height: 32px; border-radius: 100px; background: #3c66ff; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px">5</span>
+        <div style="font-size: 17px; font-weight: 700; line-height: 22px">Mã QR thanh toán</div>
+        <div style="font-size: 14px; line-height: 21px; color: #2e3238">Chủ yếu là QR của người tổ chức: tải ảnh QR có sẵn (mặc định) hoặc tạo VietQR từ ngân hàng + số tài khoản.</div>
+      </div>
+      <div style="width: 24px; display: flex; align-items: center; justify-content: center; color: #5d656f; flex-shrink: 0"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></div>
+      <div style="flex: 1 1 0; min-width: 0; background: #ffffff; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 0 0 2px #002a61">
+        <span style="width: 32px; height: 32px; border-radius: 100px; background: #002a61; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px">6</span>
+        <div style="font-size: 17px; font-weight: 700; line-height: 22px">Chia sẻ</div>
+        <div style="font-size: 14px; line-height: 21px; color: #2e3238">Link + mã QR của link, sao chép, chia sẻ Zalo/Messenger. Theo dõi ai đã trả, ai chưa.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex; justify-content: flex-end; padding-right: 80px; margin: -16px 0">
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; color: #5d656f">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"></path></svg>
+      <span style="padding: 4px 12px; border-radius: 100px; background: #ffffff; font-size: 13px; font-weight: 600; color: #2e3238; box-shadow: 0 0 0 1px #dbdde1">Gửi link công khai</span>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 16px">
+    <div style="display: flex; align-items: center; gap: 12px">
+      <span style="padding: 4px 12px; border-radius: 100px; background: #3c66ff; color: #ffffff; font-size: 14px; font-weight: 600">Người nhận link</span>
+      <span style="font-size: 14px; color: #5d656f">Link công khai: /p/abc123 · chỉ xem và đánh dấu đã trả</span>
+    </div>
+    <div style="display: flex; align-items: stretch; gap: 8px">
+      <div style="flex: 1 1 0; min-width: 0; background: #ffffff; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 12px 24px -4px #5d656f1f, 0 0 2px 0 #5d656f1f">
+        <div style="font-size: 17px; font-weight: 700">Mở link</div>
+        <div style="font-size: 14px; line-height: 21px; color: #2e3238">Thấy tên buổi tiệc, tổng chi và danh sách chuyển khoản.</div>
+      </div>
+      <div style="width: 24px; display: flex; align-items: center; justify-content: center; color: #5d656f; flex-shrink: 0"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></div>
+      <div style="flex: 1 1 0; min-width: 0; background: #ffffff; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 12px 24px -4px #5d656f1f, 0 0 2px 0 #5d656f1f">
+        <div style="font-size: 17px; font-weight: 700">Chọn “Tôi là…”</div>
+        <div style="font-size: 14px; line-height: 21px; color: #2e3238">Chạm vào tên mình, số tiền của mình được làm nổi bật.</div>
+      </div>
+      <div style="width: 24px; display: flex; align-items: center; justify-content: center; color: #5d656f; flex-shrink: 0"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></div>
+      <div style="flex: 1 1 0; min-width: 0; background: #ffffff; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 12px 24px -4px #5d656f1f, 0 0 2px 0 #5d656f1f">
+        <div style="font-size: 17px; font-weight: 700">Trả cho [tên]</div>
+        <div style="font-size: 14px; line-height: 21px; color: #2e3238">Quét QR của người tổ chức đúng số tiền, hoặc sao chép số tài khoản.</div>
+      </div>
+      <div style="width: 24px; display: flex; align-items: center; justify-content: center; color: #5d656f; flex-shrink: 0"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></div>
+      <div style="flex: 1 1 0; min-width: 0; background: #ffffff; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 12px 24px -4px #5d656f1f, 0 0 2px 0 #5d656f1f">
+        <div style="font-size: 17px; font-weight: 700">Bấm “Đã trả”</div>
+        <div style="font-size: 14px; line-height: 21px; color: #2e3238">Trạng thái đồng bộ về người tổ chức ở bước 6.</div>
+      </div>
+      <div style="width: 24px; display: flex; align-items: center; justify-content: center; color: #5d656f; flex-shrink: 0"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></div>
+      <div style="flex: 1 1 0; min-width: 0; background: #e9fcd4; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 8px">
+        <div style="font-size: 17px; font-weight: 700; color: #315e00">Hoàn tất</div>
+        <div style="font-size: 14px; line-height: 21px; color: #315e00">Khi mọi khoản đã trả: hiệu ứng chúc mừng cho cả nhóm.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px">
+    <div style="background: #ffffff; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 12px 24px -4px #5d656f1f, 0 0 2px 0 #5d656f1f">
+      <div style="font-size: 18px; font-weight: 700; color: #002a61">Lớp phủ &amp; trạng thái</div>
+      <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 23px; color: #2e3238; display: flex; flex-direction: column; gap: 4px">
+        <li>Bảng thêm/sửa hóa đơn (trượt từ dưới lên)</li>
+        <li>Hộp xác nhận xóa thành viên đang có trong hóa đơn</li>
+        <li>Toast thông báo, có nút “Hoàn tác” khi xóa hóa đơn</li>
+        <li>Trạng thái trống cho thành viên, hóa đơn, mã QR</li>
+        <li>Chế độ sáng/tối ở mọi màn hình</li>
+      </ul>
+    </div>
+    <div style="background: #ffffff; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 12px 24px -4px #5d656f1f, 0 0 2px 0 #5d656f1f">
+      <div style="font-size: 18px; font-weight: 700; color: #002a61">Quy tắc tính tiền</div>
+      <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 23px; color: #2e3238; display: flex; flex-direction: column; gap: 4px">
+        <li>Tài trợ (không bắt buộc) trừ trước, phần còn lại mới chia</li>
+        <li>Mỗi phần làm tròn tới 1.000đ, phần lệch tính cho người trả</li>
+        <li>Chia tùy chỉnh phải khớp số tiền còn lại (hoặc 100%)</li>
+        <li>Mặc định: mọi người chuyển cho người tổ chức, người tổ chức trả lại người đã ứng trước. Tùy chọn: gộp nợ để ít lần chuyển nhất</li>
+      </ul>
+    </div>
+    <div style="background: #ffffff; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 12px 24px -4px #5d656f1f, 0 0 2px 0 #5d656f1f">
+      <div style="font-size: 18px; font-weight: 700; color: #002a61">Đường dẫn &amp; dữ liệu</div>
+      <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 23px; color: #2e3238; display: flex; flex-direction: column; gap: 4px">
+        <li>/p/:id – công khai, chỉ xem + đánh dấu đã trả</li>
+        <li>/p/:id/sua?k=… – người tổ chức, sửa được tất cả</li>
+        <li>Bảng: parties, members, bills, bill_members, sponsors, payments</li>
+        <li>Ảnh QR/hóa đơn nén ở máy trước khi tải lên (≤ 2MB)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1120}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
