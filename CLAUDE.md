@@ -86,6 +86,7 @@ Data model: one `Party` JSON document (members, bills, bank info with optional Q
 
 - Default: **no backend**. Works on GitHub Pages as-is; the limits are that "Đã trả" is per device and images are dropped from share links.
 - **Supabase** (recommended): run `supabase/schema.sql`, then set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in `.env.local` locally, or as GitHub repo **Variables** for CI. The anon key is public by design; security comes from the RPC functions, and the organiser key is stored as a SHA-256 hash.
+- **Cloudflare D1** (used on chia-bill.pages.dev): `functions/api/[[path]].ts` is a Pages Function over D1 (binding `DB`, schema in `d1/schema.sql`); `src/data/d1.ts` is the client store, enabled by build var `VITE_STORE=d1`. Editing needs the organiser key (`X-Edit-Key`, stored as SHA-256). A party is capped at ~1.9MB (D1 row limit). Viewers poll every 10s, no realtime.
 - Adding another backend = one file implementing `Store` (`create/load/save/setPaid/remove/watch/viewRoute`), then choose it in `data/index.ts`.
 
 ## Gotchas
