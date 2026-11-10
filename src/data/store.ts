@@ -18,7 +18,7 @@ export interface Watcher {
  * - SupabaseStore: party + payment status in Postgres, synced across devices.
  */
 export interface Store {
-  kind: 'local' | 'supabase';
+  kind: 'local' | 'supabase' | 'd1';
   create(party: Party): Promise<{ id: string; key: string }>;
   load(id: string): Promise<Snapshot | null>;
   save(id: string, key: string, party: Party): Promise<void>;
@@ -35,7 +35,7 @@ export interface MyParty {
   key: string;
   name: string;
   date: string;
-  kind: 'local' | 'supabase';
+  kind: 'local' | 'supabase' | 'd1';
   updatedAt: number;
 }
 

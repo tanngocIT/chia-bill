@@ -17,7 +17,7 @@ export default function Viewer({ id, encoded }: { id?: string; encoded?: string 
   const [error, setError] = useState('');
   const [me, setMe] = useState<string | null>(null);
   const watcher = useRef<Watcher | null>(null);
-  const remote = !encoded && store.kind === 'supabase';
+  const remote = !encoded && store.kind !== 'local';
 
   useEffect(() => {
     if (encoded) {
